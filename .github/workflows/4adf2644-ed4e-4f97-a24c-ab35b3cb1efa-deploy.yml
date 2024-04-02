@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - main
-      - 
+      - openfn/reconnect
 
 jobs:
   deploy-to-lightning:
