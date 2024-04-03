@@ -28,7 +28,7 @@ jobs:
     name: A job to pull changes from Lightning
     steps:
       - name: openfn pull and commit
-        uses: midigofrank/cli-pull-action@v0.8.2
+        uses: midigofrank/cli-pull-action@v0.8.3
         with:
           secret_input: ${{ secrets[inputs.apiSecretName] }}
           project_id_input: ${{ inputs.projectId }}
