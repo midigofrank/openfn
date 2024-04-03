@@ -33,6 +33,6 @@ jobs:
           secret_input: ${{ secrets[inputs.apiSecretName] }}
           project_id_input: ${{ inputs.projectId }}
           config_path_input: ${{ inputs.pathToConfig }}
-          endpoint_path_input: ${{ inputs.endpoint }}
+          endpoint_input: ${{ inputs.endpoint }}
           branch_input: ${{ inputs.branch }}
           commit_message_input: ${{ inputs.commitMessage }}
