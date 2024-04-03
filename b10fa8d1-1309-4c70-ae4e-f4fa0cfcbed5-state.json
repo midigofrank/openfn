@@ -1,0 +1,60 @@
+{
+  "id": "b10fa8d1-1309-4c70-ae4e-f4fa0cfcbed5",
+  "name": "dhis2-project",
+  "description": null,
+  "inserted_at": "2024-03-22T05:22:34",
+  "updated_at": "2024-03-22T05:22:34",
+  "scheduled_deletion": null,
+  "history_retention_period": null,
+  "dataclip_retention_period": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
+  "workflows": {
+    "DHIS2-to-Sheets": {
+      "id": "6342e6ae-4330-4dfa-b18e-f085287d9f3a",
+      "name": "DHIS2 to Sheets",
+      "inserted_at": "2024-03-22T05:22:34",
+      "project_id": "b10fa8d1-1309-4c70-ae4e-f4fa0cfcbed5",
+      "updated_at": "2024-03-22T05:22:34",
+      "deleted_at": null,
+      "triggers": {
+        "cron": {
+          "enabled": true,
+          "id": "7d436749-41d1-4245-ba4b-54d8da5be86a",
+          "type": "cron",
+          "cron_expression": "0 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-DHIS2-data": {
+          "id": "fa67cc67-055d-456c-8de8-6e411c02e4de",
+          "name": "Get DHIS2 data",
+          "body": "get('trackedEntityInstances/PQfMcpmXeFE');\n",
+          "adaptor": "@openfn/language-dhis2@latest"
+        },
+        "Upload-to-Google-Sheet": {
+          "id": "070d84f0-6187-4bae-b3e1-372ac46393eb",
+          "name": "Upload to Google Sheet",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "cron->Get-DHIS2-data": {
+          "enabled": true,
+          "id": "0624269b-986a-400c-a09c-418f50a47874",
+          "source_trigger_id": "7d436749-41d1-4245-ba4b-54d8da5be86a",
+          "condition_type": "always",
+          "target_job_id": "fa67cc67-055d-456c-8de8-6e411c02e4de"
+        },
+        "Get-DHIS2-data->Upload-to-Google-Sheet": {
+          "enabled": true,
+          "id": "81f84a6d-a969-4349-a060-7f93d3bccfdc",
+          "source_job_id": "fa67cc67-055d-456c-8de8-6e411c02e4de",
+          "condition_type": "on_job_success",
+          "target_job_id": "070d84f0-6187-4bae-b3e1-372ac46393eb"
+        }
+      }
+    }
+  }
+}
