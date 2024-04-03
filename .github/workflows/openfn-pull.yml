@@ -24,6 +24,10 @@ jobs:
       contents: write
     name: A job to pull changes from Lightning
     steps:
+      - name: Try new branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
       - name: openfn pull and commit
         uses: midigofrank/cli-pull-action@v0.8.3
         with:
