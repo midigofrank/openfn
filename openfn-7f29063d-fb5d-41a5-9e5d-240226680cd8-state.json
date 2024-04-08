@@ -1,0 +1,60 @@
+{
+  "id": "7f29063d-fb5d-41a5-9e5d-240226680cd8",
+  "name": "dhis2-project",
+  "description": null,
+  "inserted_at": "2024-04-08T00:01:09",
+  "updated_at": "2024-04-08T00:01:09",
+  "scheduled_deletion": null,
+  "dataclip_retention_period": null,
+  "history_retention_period": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
+  "workflows": {
+    "DHIS2-to-Sheets": {
+      "id": "a5efb4e1-83dd-4c2a-8a1c-12a5faac016d",
+      "name": "DHIS2 to Sheets",
+      "inserted_at": "2024-04-08T00:01:09",
+      "updated_at": "2024-04-08T00:01:09",
+      "project_id": "7f29063d-fb5d-41a5-9e5d-240226680cd8",
+      "deleted_at": null,
+      "triggers": {
+        "cron": {
+          "enabled": true,
+          "id": "e89ca69d-f733-4d49-ac30-08f615f22d20",
+          "type": "cron",
+          "cron_expression": "0 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-DHIS2-data": {
+          "id": "0bbf5621-487f-4f62-915c-1ed5254de82f",
+          "name": "Get DHIS2 data",
+          "body": "get('trackedEntityInstances/PQfMcpmXeFE');\n",
+          "adaptor": "@openfn/language-dhis2@latest"
+        },
+        "Upload-to-Google-Sheet": {
+          "id": "78273343-44de-4a92-90c2-41e88d4a23f7",
+          "name": "Upload to Google Sheet",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "cron->Get-DHIS2-data": {
+          "enabled": true,
+          "id": "10535895-4f6d-458e-9c6f-4ba3cfb94bfc",
+          "source_trigger_id": "e89ca69d-f733-4d49-ac30-08f615f22d20",
+          "condition_type": "always",
+          "target_job_id": "0bbf5621-487f-4f62-915c-1ed5254de82f"
+        },
+        "Get-DHIS2-data->Upload-to-Google-Sheet": {
+          "enabled": true,
+          "id": "6e4573f3-b395-40a9-9736-83167c622415",
+          "source_job_id": "0bbf5621-487f-4f62-915c-1ed5254de82f",
+          "condition_type": "on_job_success",
+          "target_job_id": "78273343-44de-4a92-90c2-41e88d4a23f7"
+        }
+      }
+    }
+  }
+}
