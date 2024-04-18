@@ -81,38 +81,6 @@
         }
       }
     },
-    "another-test-workflow": {
-      "id": "7795bc97-bfe8-4f6e-913c-e70b59e3f426",
-      "name": "another test workflow",
-      "inserted_at": "2024-04-12T05:46:55",
-      "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
-      "updated_at": "2024-04-18T04:33:10",
-      "deleted_at": "2024-04-18T04:33:10Z",
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "42ca7126-4254-488a-92ad-3dbca23de1fc",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Job-1": {
-          "id": "202df46c-bd59-421e-8401-8120e5f14a65",
-          "name": "Job 1",
-          "body": "// Get started by adding operations from the API reference\n",
-          "adaptor": "@openfn/language-common@latest"
-        }
-      },
-      "edges": {
-        "webhook->Job-1": {
-          "enabled": true,
-          "id": "a085cb52-1ec9-49ef-90bd-aba7772ba16e",
-          "target_job_id": "202df46c-bd59-421e-8401-8120e5f14a65",
-          "source_trigger_id": "42ca7126-4254-488a-92ad-3dbca23de1fc",
-          "condition_type": "always"
-        }
-      }
-    },
     "test-workflow": {
       "id": "1a2c5d90-b09a-4be7-a59c-e0e31648478e",
       "name": "test workflow",
