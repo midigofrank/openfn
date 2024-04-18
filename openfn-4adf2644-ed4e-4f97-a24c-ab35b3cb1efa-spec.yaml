@@ -77,7 +77,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: false
+        enabled: true
     edges:
       webhook->job-1:
         source_trigger: webhook
