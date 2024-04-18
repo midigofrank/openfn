@@ -1,0 +1,86 @@
+name: openhie-project
+# description:
+# credentials:
+# globals:
+workflows:
+  OpenHIE-Workflow:
+    name: OpenHIE Workflow
+    jobs:
+      Transform-data-to-FHIR-standard:
+        name: Transform data to FHIR standard
+        adaptor: '@openfn/language-http@latest'
+        # credential:
+        # globals:
+        body: |
+          fn(state => state);
+          
+      Send-to-OpenHIM-to-route-to-SHR:
+        name: Send to OpenHIM to route to SHR
+        adaptor: '@openfn/language-http@latest'
+        # credential:
+        # globals:
+        body: |
+          fn(state => state);
+          
+      Notify-CHW-upload-successful:
+        name: Notify CHW upload successful
+        adaptor: '@openfn/language-http@latest'
+        # credential:
+        # globals:
+        body: |
+          fn(state => state);
+          
+      Notify-CHW-upload-failed:
+        name: Notify CHW upload failed
+        adaptor: '@openfn/language-http@latest'
+        # credential:
+        # globals:
+        body: |
+          fn(state => state);
+          
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Transform-data-to-FHIR-standard:
+        source_trigger: webhook
+        target_job: Transform-data-to-FHIR-standard
+        condition_type: always
+        enabled: true
+      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Transform-data-to-FHIR-standard
+        target_job: Send-to-OpenHIM-to-route-to-SHR
+        condition_type: on_job_success
+        enabled: true
+      Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful:
+        source_job: Send-to-OpenHIM-to-route-to-SHR
+        target_job: Notify-CHW-upload-successful
+        condition_type: on_job_success
+        enabled: true
+      Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed:
+        source_job: Send-to-OpenHIM-to-route-to-SHR
+        target_job: Notify-CHW-upload-failed
+        condition_type: on_job_failure
+        enabled: true
+  test-workflow:
+    name: test workflow
+    jobs:
+      job-1:
+        name: job 1
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->job-1:
+        source_trigger: webhook
+        target_job: job-1
+        condition_type: always
+        enabled: true

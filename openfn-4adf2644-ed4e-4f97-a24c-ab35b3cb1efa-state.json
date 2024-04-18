@@ -1,0 +1,117 @@
+{
+  "id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
+  "name": "openhie-project",
+  "description": null,
+  "inserted_at": "2024-04-11T06:17:22",
+  "updated_at": "2024-04-11T06:17:22",
+  "scheduled_deletion": null,
+  "history_retention_period": null,
+  "dataclip_retention_period": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
+  "workflows": {
+    "OpenHIE-Workflow": {
+      "id": "92343d57-e708-4ee0-a9c3-540a7054b4cb",
+      "name": "OpenHIE Workflow",
+      "inserted_at": "2024-04-11T06:17:22",
+      "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
+      "updated_at": "2024-04-11T06:17:22",
+      "deleted_at": null,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Transform-data-to-FHIR-standard": {
+          "id": "2384c442-448f-4864-ab2c-c96b15f21d95",
+          "name": "Transform data to FHIR standard",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR": {
+          "id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
+          "name": "Send to OpenHIM to route to SHR",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Notify-CHW-upload-successful": {
+          "id": "6366ec4f-0c22-43f0-b8c5-060ff2a4f783",
+          "name": "Notify CHW upload successful",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Notify-CHW-upload-failed": {
+          "id": "1511cabf-c1ad-4b61-824b-18b883c761a3",
+          "name": "Notify CHW upload failed",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "webhook->Transform-data-to-FHIR-standard": {
+          "enabled": true,
+          "id": "7b519e39-9240-462b-b701-67d8a497ed1d",
+          "target_job_id": "2384c442-448f-4864-ab2c-c96b15f21d95",
+          "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
+          "condition_type": "always"
+        },
+        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
+          "enabled": true,
+          "id": "8373aa5b-9936-4bd8-bdfc-4f850fbd2f64",
+          "target_job_id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
+          "source_job_id": "2384c442-448f-4864-ab2c-c96b15f21d95",
+          "condition_type": "on_job_success"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
+          "enabled": true,
+          "id": "4376a943-4514-4ce8-97d1-f56ac7a6dba6",
+          "target_job_id": "6366ec4f-0c22-43f0-b8c5-060ff2a4f783",
+          "source_job_id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
+          "condition_type": "on_job_success"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
+          "enabled": true,
+          "id": "f6145e72-2c74-4159-96eb-a8442887864c",
+          "target_job_id": "1511cabf-c1ad-4b61-824b-18b883c761a3",
+          "source_job_id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
+          "condition_type": "on_job_failure"
+        }
+      }
+    },
+    "test-workflow": {
+      "id": "1a2c5d90-b09a-4be7-a59c-e0e31648478e",
+      "name": "test workflow",
+      "inserted_at": "2024-04-12T05:50:00",
+      "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
+      "updated_at": "2024-04-18T04:33:15",
+      "deleted_at": null,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "bc6668b7-b786-4642-9589-e13689d02425",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "job-1": {
+          "id": "1120edc9-3319-42e0-9815-4a15c059f75a",
+          "name": "job 1",
+          "body": "// Get started by adding operations from the API reference\n",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "webhook->job-1": {
+          "enabled": true,
+          "id": "b8dd4db5-6d58-4010-9dac-fa44b676a2f4",
+          "target_job_id": "1120edc9-3319-42e0-9815-4a15c059f75a",
+          "source_trigger_id": "bc6668b7-b786-4642-9589-e13689d02425",
+          "condition_type": "always"
+        }
+      }
+    }
+  }
+}
