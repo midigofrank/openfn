@@ -17,39 +17,6 @@
       "inserted_at": "2024-04-18T05:36:49",
       "deleted_at": null,
       "updated_at": "2024-04-18T05:36:49",
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Transform-data-to-FHIR-standard": {
-          "id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d",
-          "name": "Transform data to FHIR standard",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        },
-        "Send-to-OpenHIM-to-route-to-SHR": {
-          "id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
-          "name": "Send to OpenHIM to route to SHR",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        },
-        "Notify-CHW-upload-successful": {
-          "id": "795e7fc2-cfef-4c7b-83fe-1c584ed55222",
-          "name": "Notify CHW upload successful",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        },
-        "Notify-CHW-upload-failed": {
-          "id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7",
-          "name": "Notify CHW upload failed",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        }
-      },
       "edges": {
         "webhook->Transform-data-to-FHIR-standard": {
           "enabled": true,
@@ -78,6 +45,39 @@
           "source_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
           "condition_type": "on_job_failure",
           "target_job_id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7"
+        }
+      },
+      "jobs": {
+        "Transform-data-to-FHIR-standard": {
+          "id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d",
+          "name": "Transform data to FHIR standard",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR": {
+          "id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
+          "name": "Send to OpenHIM to route to SHR",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Notify-CHW-upload-successful": {
+          "id": "795e7fc2-cfef-4c7b-83fe-1c584ed55222",
+          "name": "Notify CHW upload successful",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Notify-CHW-upload-failed": {
+          "id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7",
+          "name": "Notify CHW upload failed",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
+          "type": "webhook"
         }
       }
     }
