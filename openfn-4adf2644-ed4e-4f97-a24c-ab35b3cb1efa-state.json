@@ -2,21 +2,21 @@
   "id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
   "name": "openhie-project",
   "description": null,
-  "inserted_at": "2024-04-11T06:17:22",
-  "updated_at": "2024-04-11T06:17:22",
+  "inserted_at": "2024-04-18T05:36:49",
+  "updated_at": "2024-04-18T05:36:49",
   "scheduled_deletion": null,
-  "history_retention_period": null,
   "dataclip_retention_period": null,
+  "history_retention_period": null,
   "requires_mfa": false,
   "retention_policy": "retain_all",
   "workflows": {
     "OpenHIE-Workflow": {
-      "id": "92343d57-e708-4ee0-a9c3-540a7054b4cb",
+      "id": "8ab5718e-af9b-4b2a-8468-2ca204255622",
       "name": "OpenHIE Workflow",
-      "inserted_at": "2024-04-11T06:17:22",
       "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
-      "updated_at": "2024-04-11T06:17:22",
+      "inserted_at": "2024-04-18T05:36:49",
       "deleted_at": null,
+      "updated_at": "2024-04-18T05:36:49",
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -26,25 +26,25 @@
       },
       "jobs": {
         "Transform-data-to-FHIR-standard": {
-          "id": "2384c442-448f-4864-ab2c-c96b15f21d95",
+          "id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d",
           "name": "Transform data to FHIR standard",
           "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest"
         },
         "Send-to-OpenHIM-to-route-to-SHR": {
-          "id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
+          "id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
           "name": "Send to OpenHIM to route to SHR",
           "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest"
         },
         "Notify-CHW-upload-successful": {
-          "id": "6366ec4f-0c22-43f0-b8c5-060ff2a4f783",
+          "id": "795e7fc2-cfef-4c7b-83fe-1c584ed55222",
           "name": "Notify CHW upload successful",
           "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest"
         },
         "Notify-CHW-upload-failed": {
-          "id": "1511cabf-c1ad-4b61-824b-18b883c761a3",
+          "id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7",
           "name": "Notify CHW upload failed",
           "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest"
@@ -53,63 +53,31 @@
       "edges": {
         "webhook->Transform-data-to-FHIR-standard": {
           "enabled": true,
-          "id": "7b519e39-9240-462b-b701-67d8a497ed1d",
-          "target_job_id": "2384c442-448f-4864-ab2c-c96b15f21d95",
+          "id": "2d5a7384-eeb0-4f8d-87a1-309232af636f",
           "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
-          "condition_type": "always"
+          "condition_type": "always",
+          "target_job_id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d"
         },
         "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
           "enabled": true,
-          "id": "8373aa5b-9936-4bd8-bdfc-4f850fbd2f64",
-          "target_job_id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
-          "source_job_id": "2384c442-448f-4864-ab2c-c96b15f21d95",
-          "condition_type": "on_job_success"
+          "id": "79a73d48-cb20-4a2a-a1c8-3390544b35da",
+          "source_job_id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d",
+          "condition_type": "on_job_success",
+          "target_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a"
         },
         "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
           "enabled": true,
-          "id": "4376a943-4514-4ce8-97d1-f56ac7a6dba6",
-          "target_job_id": "6366ec4f-0c22-43f0-b8c5-060ff2a4f783",
-          "source_job_id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
-          "condition_type": "on_job_success"
+          "id": "3e872043-a679-455d-b199-9e7411455931",
+          "source_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
+          "condition_type": "on_job_success",
+          "target_job_id": "795e7fc2-cfef-4c7b-83fe-1c584ed55222"
         },
         "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
           "enabled": true,
-          "id": "f6145e72-2c74-4159-96eb-a8442887864c",
-          "target_job_id": "1511cabf-c1ad-4b61-824b-18b883c761a3",
-          "source_job_id": "8f7c9190-a8e9-449c-93b2-5b93367dcba6",
-          "condition_type": "on_job_failure"
-        }
-      }
-    },
-    "test-workflow": {
-      "id": "1a2c5d90-b09a-4be7-a59c-e0e31648478e",
-      "name": "test workflow",
-      "inserted_at": "2024-04-12T05:50:00",
-      "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
-      "updated_at": "2024-04-18T04:33:15",
-      "deleted_at": null,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "bc6668b7-b786-4642-9589-e13689d02425",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "job-1": {
-          "id": "1120edc9-3319-42e0-9815-4a15c059f75a",
-          "name": "job 1",
-          "body": "// Get started by adding operations from the API reference\n",
-          "adaptor": "@openfn/language-common@latest"
-        }
-      },
-      "edges": {
-        "webhook->job-1": {
-          "enabled": true,
-          "id": "b8dd4db5-6d58-4010-9dac-fa44b676a2f4",
-          "target_job_id": "1120edc9-3319-42e0-9815-4a15c059f75a",
-          "source_trigger_id": "bc6668b7-b786-4642-9589-e13689d02425",
-          "condition_type": "always"
+          "id": "3be5561d-bb4e-42ac-9625-55568ca95590",
+          "source_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
+          "condition_type": "on_job_failure",
+          "target_job_id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7"
         }
       }
     }
