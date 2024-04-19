@@ -41,7 +41,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: false
+        enabled: true
     edges:
       webhook->Transform-data-to-FHIR-standard:
         source_trigger: webhook
