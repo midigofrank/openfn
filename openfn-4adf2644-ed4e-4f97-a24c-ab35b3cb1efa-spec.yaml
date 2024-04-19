@@ -41,13 +41,13 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: true
+        enabled: false
     edges:
       webhook->Transform-data-to-FHIR-standard:
         source_trigger: webhook
         target_job: Transform-data-to-FHIR-standard
         condition_type: always
-        enabled: true
+        enabled: false
       Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
         source_job: Transform-data-to-FHIR-standard
         target_job: Send-to-OpenHIM-to-route-to-SHR
