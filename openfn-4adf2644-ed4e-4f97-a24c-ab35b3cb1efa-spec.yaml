@@ -80,6 +80,7 @@ workflows:
             }
             return state;
           });
+          
       Job-2:
         name: Job 2
         adaptor: '@openfn/language-common@latest'
@@ -94,6 +95,7 @@ workflows:
             }
             return state;
           });
+          
     triggers:
       webhook:
         type: webhook
