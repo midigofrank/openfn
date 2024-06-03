@@ -1,5 +1,5 @@
 {
-  "endpoint": "https://134c-41-90-70-68.ngrok-free.app",
-  "specPath": "openfn-4adf2644-ed4e-4f97-a24c-ab35b3cb1efa-spec.yaml",
-  "statePath": "openfn-4adf2644-ed4e-4f97-a24c-ab35b3cb1efa-state.json"
+  "endpoint": "https://7f79-41-90-70-68.ngrok-free.app",
+  "statePath": "openfn-4adf2644-ed4e-4f97-a24c-ab35b3cb1efa-state.json",
+  "specPath": "openfn-4adf2644-ed4e-4f97-a24c-ab35b3cb1efa-spec.yaml"
 }
