@@ -1,0 +1,61 @@
+{
+  "id": "0c925b53-ce40-48e5-abd3-6c16414d1bbd",
+  "name": "dhis2-project",
+  "description": null,
+  "inserted_at": "2024-05-22T08:37:18",
+  "updated_at": "2024-05-22T08:37:18",
+  "scheduled_deletion": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
+  "dataclip_retention_period": null,
+  "history_retention_period": null,
+  "workflows": {
+    "DHIS2-to-Sheets": {
+      "id": "a5230524-b4e7-4db8-acda-9237b8bb93e2",
+      "name": "DHIS2 to Sheets",
+      "project_id": "0c925b53-ce40-48e5-abd3-6c16414d1bbd",
+      "lock_version": 4,
+      "inserted_at": "2024-05-22T08:37:18Z",
+      "updated_at": "2024-05-22T08:37:18Z",
+      "deleted_at": null,
+      "triggers": {
+        "cron": {
+          "enabled": true,
+          "id": "da4dea76-67f3-43b6-9ad0-85c6eda67f0d",
+          "type": "cron",
+          "cron_expression": "0 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-DHIS2-data": {
+          "id": "c88dad6e-0742-47f4-9a5f-0e20c31240c2",
+          "name": "Get DHIS2 data",
+          "body": "get('trackedEntityInstances/PQfMcpmXeFE');\n",
+          "adaptor": "@openfn/language-dhis2@latest"
+        },
+        "Upload-to-Google-Sheet": {
+          "id": "b47d4643-95a6-4763-b14a-bf7cc9aab638",
+          "name": "Upload to Google Sheet",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "cron->Get-DHIS2-data": {
+          "enabled": true,
+          "id": "d3484e98-287f-4c3e-883f-a1df4ac459b6",
+          "source_trigger_id": "da4dea76-67f3-43b6-9ad0-85c6eda67f0d",
+          "target_job_id": "c88dad6e-0742-47f4-9a5f-0e20c31240c2",
+          "condition_type": "always"
+        },
+        "Get-DHIS2-data->Upload-to-Google-Sheet": {
+          "enabled": true,
+          "id": "91f35f84-d280-4c49-bcc6-8cda6963f7b5",
+          "source_job_id": "c88dad6e-0742-47f4-9a5f-0e20c31240c2",
+          "target_job_id": "b47d4643-95a6-4763-b14a-bf7cc9aab638",
+          "condition_type": "on_job_success"
+        }
+      }
+    }
+  }
+}
