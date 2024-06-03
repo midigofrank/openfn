@@ -1,0 +1,73 @@
+{
+  "id": "74258ee6-920c-46fd-bfef-dee306e5778d",
+  "name": "frank-demo",
+  "description": null,
+  "inserted_at": "2024-05-31T05:17:56",
+  "updated_at": "2024-05-31T05:17:56",
+  "scheduled_deletion": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
+  "dataclip_retention_period": null,
+  "history_retention_period": null,
+  "workflows": {
+    "Sample-Workflow": {
+      "id": "a0a485fa-d8d0-42a6-bd5b-99c8b2d0ab0e",
+      "name": "Sample Workflow",
+      "project_id": "74258ee6-920c-46fd-bfef-dee306e5778d",
+      "lock_version": 6,
+      "inserted_at": "2024-05-31T05:17:56Z",
+      "updated_at": "2024-05-31T05:17:56Z",
+      "deleted_at": null,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "45424b8d-100c-45c8-a3af-5ccab6cd2aed",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Job-1---Check-if-age-is-over-18-months": {
+          "id": "ff5860b9-5213-464f-a3a1-1530339aab52",
+          "name": "Job 1 - Check if age is over 18 months",
+          "body": "  fn(state => {\n    if (state.data.age_in_months > 18) {\n      console.log('Eligible for program.');\n      return state;\n    }\n    else { throw 'Error, patient ineligible.' }\n  });\n",
+          "adaptor": "@openfn/language-common@latest"
+        },
+        "Job-2---Convert-data-to-DHIS2-format": {
+          "id": "a4cb9b37-ce6a-4101-9bc3-eee1aab751bb",
+          "name": "Job 2 - Convert data to DHIS2 format",
+          "body": "  fn(state => {\n    const names = state.data.name.split(' ');\n    return { ...state, names };\n  });\n",
+          "adaptor": "@openfn/language-common@latest"
+        },
+        "Job-3---Upload-to-DHIS2": {
+          "id": "e160b222-3650-40d7-84d9-8f0d4c921e7a",
+          "name": "Job 3 - Upload to DHIS2",
+          "body": "  create('trackedEntityInstances', {\n    trackedEntityType: 'nEenWmSyUEp', // a person\n    orgUnit: 'DiszpKrYNg8',\n    attributes: [\n      {\n        attribute: 'w75KJ2mc4zz', // attribute id for first name\n        value: state.names[0] // the first name from submission\n      },\n      {\n        attribute: 'zDhUuAYrxNC', // attribute id for last name\n        value: state.names[1] // the last name from submission\n      }\n    ]\n  });\n",
+          "adaptor": "@openfn/language-dhis2@latest"
+        }
+      },
+      "edges": {
+        "webhook->Job-1---Check-if-age-is-over-18-months": {
+          "enabled": true,
+          "id": "b1daa8a8-e547-463b-a9ba-d2453612d19d",
+          "source_trigger_id": "45424b8d-100c-45c8-a3af-5ccab6cd2aed",
+          "target_job_id": "ff5860b9-5213-464f-a3a1-1530339aab52",
+          "condition_type": "always"
+        },
+        "Job-1---Check-if-age-is-over-18-months->Job-2---Convert-data-to-DHIS2-format": {
+          "enabled": true,
+          "id": "f19bc574-99f1-4417-a927-c343c9ccf7ed",
+          "source_job_id": "ff5860b9-5213-464f-a3a1-1530339aab52",
+          "target_job_id": "a4cb9b37-ce6a-4101-9bc3-eee1aab751bb",
+          "condition_type": "on_job_success"
+        },
+        "Job-2---Convert-data-to-DHIS2-format->Job-3---Upload-to-DHIS2": {
+          "enabled": true,
+          "id": "f3b4d748-9c01-496e-b158-01a2f6d7b474",
+          "source_job_id": "a4cb9b37-ce6a-4101-9bc3-eee1aab751bb",
+          "target_job_id": "e160b222-3650-40d7-84d9-8f0d4c921e7a",
+          "condition_type": "on_job_success"
+        }
+      }
+    }
+  }
+}
