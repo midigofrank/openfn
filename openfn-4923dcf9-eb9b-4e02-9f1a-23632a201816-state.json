@@ -1,0 +1,61 @@
+{
+  "id": "4923dcf9-eb9b-4e02-9f1a-23632a201816",
+  "name": "dhis2-project",
+  "description": null,
+  "inserted_at": "2024-06-13T08:23:05",
+  "scheduled_deletion": null,
+  "updated_at": "2024-06-13T08:23:05",
+  "history_retention_period": null,
+  "retention_policy": "retain_all",
+  "dataclip_retention_period": null,
+  "requires_mfa": false,
+  "workflows": {
+    "DHIS2-to-Sheets": {
+      "id": "129df7c7-0cbe-4a91-ad59-11e13a5d8ff3",
+      "name": "DHIS2 to Sheets",
+      "inserted_at": "2024-06-13T08:23:05Z",
+      "project_id": "4923dcf9-eb9b-4e02-9f1a-23632a201816",
+      "updated_at": "2024-06-13T08:23:05Z",
+      "deleted_at": null,
+      "lock_version": 4,
+      "triggers": {
+        "cron": {
+          "enabled": true,
+          "id": "8fc893e6-692f-4710-9d4d-0fe6c167cdf2",
+          "type": "cron",
+          "cron_expression": "0 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-DHIS2-data": {
+          "id": "1512eb5a-725c-4cf7-9916-1ef8ae8d1da1",
+          "name": "Get DHIS2 data",
+          "body": "get('trackedEntityInstances/PQfMcpmXeFE');\n",
+          "adaptor": "@openfn/language-dhis2@latest"
+        },
+        "Upload-to-Google-Sheet": {
+          "id": "b2213b14-5afd-4833-8f0e-35cd22cf4dde",
+          "name": "Upload to Google Sheet",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "cron->Get-DHIS2-data": {
+          "enabled": true,
+          "id": "9a3ce065-2283-413e-9712-f813f94f6e52",
+          "source_trigger_id": "8fc893e6-692f-4710-9d4d-0fe6c167cdf2",
+          "condition_type": "always",
+          "target_job_id": "1512eb5a-725c-4cf7-9916-1ef8ae8d1da1"
+        },
+        "Get-DHIS2-data->Upload-to-Google-Sheet": {
+          "enabled": true,
+          "id": "a6561650-ec95-4b6b-b380-25564b0534af",
+          "source_job_id": "1512eb5a-725c-4cf7-9916-1ef8ae8d1da1",
+          "condition_type": "on_job_success",
+          "target_job_id": "b2213b14-5afd-4833-8f0e-35cd22cf4dde"
+        }
+      }
+    }
+  }
+}
