@@ -2,82 +2,83 @@
   "id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
   "name": "openhie-project",
   "description": null,
-  "inserted_at": "2024-04-18T05:36:49",
-  "updated_at": "2024-04-19T04:00:54",
+  "inserted_at": "2024-06-13T08:23:05",
   "scheduled_deletion": null,
-  "dataclip_retention_period": null,
+  "updated_at": "2024-06-13T08:23:05",
   "history_retention_period": null,
-  "requires_mfa": false,
   "retention_policy": "retain_all",
+  "dataclip_retention_period": null,
+  "requires_mfa": false,
   "workflows": {
     "OpenHIE-Workflow": {
-      "id": "8ab5718e-af9b-4b2a-8468-2ca204255622",
+      "id": "cd9fe3ac-867a-4a10-999e-f2f1e08ae40c",
       "name": "OpenHIE Workflow",
+      "inserted_at": "2024-06-13T08:23:05Z",
       "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
-      "inserted_at": "2024-04-18T05:36:49",
+      "updated_at": "2024-06-13T08:23:05Z",
       "deleted_at": null,
-      "updated_at": "2024-04-19T04:00:54",
-      "edges": {
-        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
-          "enabled": true,
-          "id": "79a73d48-cb20-4a2a-a1c8-3390544b35da",
-          "source_job_id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d",
-          "condition_type": "on_job_success",
-          "target_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a"
-        },
-        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
-          "enabled": true,
-          "id": "3e872043-a679-455d-b199-9e7411455931",
-          "source_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
-          "condition_type": "on_job_success",
-          "target_job_id": "795e7fc2-cfef-4c7b-83fe-1c584ed55222"
-        },
-        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
-          "enabled": true,
-          "id": "3be5561d-bb4e-42ac-9625-55568ca95590",
-          "source_job_id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
-          "condition_type": "on_job_failure",
-          "target_job_id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7"
-        },
-        "webhook->Transform-data-to-FHIR-standard": {
-          "enabled": false,
-          "id": "2d5a7384-eeb0-4f8d-87a1-309232af636f",
-          "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
-          "condition_type": "always",
-          "target_job_id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d"
-        }
-      },
-      "jobs": {
-        "Transform-data-to-FHIR-standard": {
-          "id": "c944f31a-44c4-4c4b-bd7c-bdaac5e3ee5d",
-          "name": "Transform data to FHIR standard",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        },
-        "Send-to-OpenHIM-to-route-to-SHR": {
-          "id": "14ce5988-30ec-4261-9d63-80ad6a61360a",
-          "name": "Send to OpenHIM to route to SHR",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        },
-        "Notify-CHW-upload-successful": {
-          "id": "795e7fc2-cfef-4c7b-83fe-1c584ed55222",
-          "name": "Notify CHW upload successful",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        },
-        "Notify-CHW-upload-failed": {
-          "id": "e15ad4c9-10b7-4ffe-a75a-1bc672d377d7",
-          "name": "Notify CHW upload failed",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest"
-        }
-      },
+      "lock_version": 9,
       "triggers": {
         "webhook": {
           "enabled": true,
           "id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
           "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Transform-data-to-FHIR-standard": {
+          "id": "d4811acc-9325-4173-abee-44ea8debfab3",
+          "name": "Transform data to FHIR standard",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR": {
+          "id": "38a8e366-8e79-4150-bf59-f681adb558ae",
+          "name": "Send to OpenHIM to route to SHR",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Notify-CHW-upload-successful": {
+          "id": "378e6bc1-9f4a-42ba-a7cb-c8ffdc110af8",
+          "name": "Notify CHW upload successful",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "Notify-CHW-upload-failed": {
+          "id": "7a237a31-e756-42c7-beea-c70b11447369",
+          "name": "Notify CHW upload failed",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "webhook->Transform-data-to-FHIR-standard": {
+          "enabled": true,
+          "id": "fca4d50e-b788-45c1-b928-59549daada72",
+          "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
+          "condition_type": "always",
+          "target_job_id": "d4811acc-9325-4173-abee-44ea8debfab3"
+        },
+        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
+          "enabled": true,
+          "id": "486d771d-4721-42e2-a1c6-478edd80f22c",
+          "source_job_id": "d4811acc-9325-4173-abee-44ea8debfab3",
+          "condition_type": "on_job_success",
+          "target_job_id": "38a8e366-8e79-4150-bf59-f681adb558ae"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
+          "enabled": true,
+          "id": "81b6a6af-8608-444f-bf5f-87cacefdd662",
+          "source_job_id": "38a8e366-8e79-4150-bf59-f681adb558ae",
+          "condition_type": "on_job_success",
+          "target_job_id": "378e6bc1-9f4a-42ba-a7cb-c8ffdc110af8"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
+          "enabled": true,
+          "id": "d2436873-e0c0-43f5-b40d-0db41f6fa418",
+          "source_job_id": "38a8e366-8e79-4150-bf59-f681adb558ae",
+          "condition_type": "on_job_failure",
+          "target_job_id": "7a237a31-e756-42c7-beea-c70b11447369"
         }
       }
     }
