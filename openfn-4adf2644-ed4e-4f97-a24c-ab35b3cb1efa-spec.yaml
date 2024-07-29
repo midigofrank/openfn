@@ -12,6 +12,7 @@ workflows:
         # credential:
         # globals:
         body: |
+          console.log('Hey You!!');
           fn(state => state);
           
       Send-to-OpenHIM-to-route-to-SHR:
@@ -62,4 +63,73 @@ workflows:
         source_job: Send-to-OpenHIM-to-route-to-SHR
         target_job: Notify-CHW-upload-failed
         condition_type: on_job_failure
+        enabled: true
+  Test-workflow:
+    name: Test workflow
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  kafka-test:
+    name: kafka-test
+    jobs:
+      Job-1:
+        name: Job 1
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          fn(state => { state });
+    triggers:
+      kafka:
+        type: kafka
+        enabled: true
+    edges:
+      kafka->Job-1:
+        source_trigger: kafka
+        target_job: Job-1
+        condition_type: always
+        enabled: true
+  my-workflow-again:
+    name: my workflow again
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
         enabled: true

@@ -6,8 +6,8 @@
     "OpenHIE-Workflow": {
       "id": "5f7b8099-ac08-47c2-9a80-d31a10c3178f",
       "name": "OpenHIE Workflow",
-      "lock_version": 9,
-      "inserted_at": "2024-07-04T07:55:33.617272Z",
+      "lock_version": 11,
+      "inserted_at": "2024-07-22T11:57:23.103620Z",
       "workflow_id": "5f7b8099-ac08-47c2-9a80-d31a10c3178f",
       "triggers": {
         "webhook": {
@@ -17,10 +17,10 @@
         }
       },
       "jobs": {
-        "Transform-data-to-FHIR-standard": {
+        "Transform-data-to-FHIR1234-standard": {
           "id": "4ac608cc-a38a-4324-8cbd-6cf7524f14d7",
-          "name": "Transform data to FHIR standard",
-          "body": "fn(state => state);\n",
+          "name": "Transform data to FHIR1234 standard",
+          "body": "console.log('Hey You!!');\nfn(state => state);\n",
           "adaptor": "@openfn/language-http@latest"
         },
         "Send-to-OpenHIM-to-route-to-SHR": {
@@ -43,14 +43,14 @@
         }
       },
       "edges": {
-        "webhook->Transform-data-to-FHIR-standard": {
+        "webhook->Transform-data-to-FHIR1234-standard": {
           "enabled": true,
           "id": "4f5d811e-3e7c-41b6-a142-67597096a2b2",
           "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
           "target_job_id": "4ac608cc-a38a-4324-8cbd-6cf7524f14d7",
           "condition_type": "always"
         },
-        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
+        "Transform-data-to-FHIR1234-standard->Send-to-OpenHIM-to-route-to-SHR": {
           "enabled": true,
           "id": "3f0ee2c5-8ac6-40f8-9458-2139f83b87c1",
           "source_job_id": "4ac608cc-a38a-4324-8cbd-6cf7524f14d7",
@@ -72,13 +72,106 @@
           "condition_type": "on_job_failure"
         }
       }
+    },
+    "kafka-test": {
+      "id": "5b34cf30-1630-4a12-b402-f8eb9eb70765",
+      "name": "kafka-test",
+      "lock_version": 3,
+      "inserted_at": "2024-07-23T08:13:17.025925Z",
+      "workflow_id": "5b34cf30-1630-4a12-b402-f8eb9eb70765",
+      "triggers": {
+        "kafka": {
+          "enabled": true,
+          "id": "dd94e512-e6d2-4147-8cca-17200ccd57c9",
+          "type": "kafka"
+        }
+      },
+      "jobs": {
+        "Job-1": {
+          "id": "094967c7-cd05-4de1-b5ff-7c90e0836ba3",
+          "name": "Job 1",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nfn(state => { state });",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "kafka->Job-1": {
+          "enabled": true,
+          "id": "554da8d0-c230-451a-bb2a-a94beab9db6d",
+          "source_trigger_id": "dd94e512-e6d2-4147-8cca-17200ccd57c9",
+          "target_job_id": "094967c7-cd05-4de1-b5ff-7c90e0836ba3",
+          "condition_type": "always"
+        }
+      }
+    },
+    "my-workflow-again": {
+      "id": "9b9ebc11-f5b9-414c-93f1-2108475633b6",
+      "name": "my workflow again",
+      "lock_version": 1,
+      "inserted_at": "2024-07-25T04:59:34.371820Z",
+      "workflow_id": "9b9ebc11-f5b9-414c-93f1-2108475633b6",
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "557a4655-c303-40a7-a01e-5403228b76e4",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "d1b6c877-497e-4f53-b5dd-906b25e3705e",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "851a705b-cb0a-4170-9636-5a62a7f5a980",
+          "source_trigger_id": "557a4655-c303-40a7-a01e-5403228b76e4",
+          "target_job_id": "d1b6c877-497e-4f53-b5dd-906b25e3705e",
+          "condition_type": "always"
+        }
+      }
+    },
+    "Test-workflow": {
+      "id": "b745ed0f-c44c-414d-b5d2-484fa0bc98e7",
+      "name": "Test workflow",
+      "lock_version": 1,
+      "inserted_at": "2024-07-25T11:39:33.395036Z",
+      "workflow_id": "b745ed0f-c44c-414d-b5d2-484fa0bc98e7",
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "3e184090-672d-45bd-8105-b73b7b699ac1",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "4e64768b-2dc3-4e45-a2e5-802de3f7481c",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "bb239857-fbfc-4e31-91d3-7b761b3f55f0",
+          "source_trigger_id": "3e184090-672d-45bd-8105-b73b7b699ac1",
+          "target_job_id": "4e64768b-2dc3-4e45-a2e5-802de3f7481c",
+          "condition_type": "always"
+        }
+      }
     }
   },
   "inserted_at": "2024-07-04T07:55:33Z",
   "scheduled_deletion": null,
   "history_retention_period": null,
   "retention_policy": "retain_all",
-  "dataclip_retention_period": null,
   "updated_at": "2024-07-04T07:55:33Z",
+  "dataclip_retention_period": null,
   "requires_mfa": false
 }
