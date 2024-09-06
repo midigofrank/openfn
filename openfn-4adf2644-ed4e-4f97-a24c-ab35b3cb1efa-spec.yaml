@@ -5,15 +5,15 @@ workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Transform-data-to-FHIR-standard:
+      Transform-data-to-FHIR-standard-Updated:
         name: Transform data to FHIR standard Updated
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
           fn(state => state);
 
-      Send-to-OpenHIM-to-route-to-SHR:
-        name: Send to OpenHIM to route to SHR
+      Send-to-OpenHIM-to-route-to-SHR-revert-this:
+        name: Send to OpenHIM to route to SHR revert this
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
@@ -38,23 +38,23 @@ workflows:
         type: webhook
         enabled: true
     edges:
-      webhook->Transform-data-to-FHIR-standard:
+      webhook->Transform-data-to-FHIR-standard-Updated:
         source_trigger: webhook
-        target_job: Transform-data-to-FHIR-standard
+        target_job: Transform-data-to-FHIR-standard-Updated
         condition_type: always
         enabled: true
-      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-data-to-FHIR-standard
-        target_job: Send-to-OpenHIM-to-route-to-SHR
+      Transform-data-to-FHIR-standard-Updated->Send-to-OpenHIM-to-route-to-SHR-revert-this:
+        source_job: Transform-data-to-FHIR-standard-Updated
+        target_job: Send-to-OpenHIM-to-route-to-SHR-revert-this
         condition_type: on_job_success
         enabled: true
-      Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful:
-        source_job: Send-to-OpenHIM-to-route-to-SHR
+      Send-to-OpenHIM-to-route-to-SHR-revert-this->Notify-CHW-upload-successful:
+        source_job: Send-to-OpenHIM-to-route-to-SHR-revert-this
         target_job: Notify-CHW-upload-successful
         condition_type: on_job_success
         enabled: true
-      Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed:
-        source_job: Send-to-OpenHIM-to-route-to-SHR
+      Send-to-OpenHIM-to-route-to-SHR-revert-this->Notify-CHW-upload-failed:
+        source_job: Send-to-OpenHIM-to-route-to-SHR-revert-this
         target_job: Notify-CHW-upload-failed
         condition_type: on_job_failure
         enabled: true
