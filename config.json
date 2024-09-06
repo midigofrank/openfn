@@ -1,5 +1,0 @@
-{
-  "endpoint": "http://localhost:4000",
-  "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJKb2tlbiIsImlhdCI6MTcwODMyNjg1MywiaXNzIjoiSm9rZW4iLCJqdGkiOiIydXFqNGU3MWppaW80bmljZmMwMDAzbDEiLCJuYmYiOjE3MDgzMjY4NTMsInVzZXJfaWQiOiI3MzhmMmZlYS0xOWI0LTQ4M2YtOTA4Ni0wNzMwZTczYTBmZGYifQ.Fp1tuEXb_ABeimdi-uzrnqh9UWlu_N5awSp67lgp2Kk",
-  "projectSpec": "./testProjectSpec.yaml"
-}
