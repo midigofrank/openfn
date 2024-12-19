@@ -6,7 +6,7 @@ workflows:
     name: OpenHIE Workflow
     jobs:
       Transform-data-to-FHIR-standard:
-        name: Transform data to FHIR standard Updated It
+        name: Transform data to FHIR standard
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |

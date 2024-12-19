@@ -4,69 +4,10 @@
   "description": null,
   "workflows": {
     "OpenHIE-Workflow": {
-      "id": "569dc1c4-42db-4405-8cae-7a7319982593",
+      "id": "e7959da4-11ab-42dc-b114-b66d23c4d68b",
       "name": "OpenHIE Workflow",
-      "edges": {
-        "webhook->Transform-data-to-FHIR-standard": {
-          "enabled": true,
-          "id": "0d9f3954-0324-42df-be20-9b4628605b29",
-          "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
-          "condition_type": "always",
-          "target_job_id": "2fdf58c7-393b-4a7b-8e27-57a0ff1c80ef"
-        },
-        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
-          "enabled": true,
-          "id": "5b663568-050f-4cc2-8845-9279b3b6b593",
-          "source_job_id": "2fdf58c7-393b-4a7b-8e27-57a0ff1c80ef",
-          "condition_type": "on_job_success",
-          "target_job_id": "b7d12ba7-aab7-40b9-8759-1ae722f8b80f"
-        },
-        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
-          "enabled": true,
-          "id": "f2ab1424-ac1a-474b-8105-4cdc083e23f6",
-          "source_job_id": "b7d12ba7-aab7-40b9-8759-1ae722f8b80f",
-          "condition_type": "on_job_success",
-          "target_job_id": "32cfde7e-69a2-41db-9af3-6913440c506e"
-        },
-        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
-          "enabled": true,
-          "id": "45489ed7-e1c0-432c-8282-af94cedff47a",
-          "source_job_id": "b7d12ba7-aab7-40b9-8759-1ae722f8b80f",
-          "condition_type": "on_job_failure",
-          "target_job_id": "6ca11f70-ffd3-4bef-b640-648a677977a0"
-        }
-      },
-      "deleted_at": null,
-      "jobs": {
-        "Transform-data-to-FHIR-standard": {
-          "id": "2fdf58c7-393b-4a7b-8e27-57a0ff1c80ef",
-          "name": "Transform data to FHIR standard Updated It",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
-        },
-        "Send-to-OpenHIM-to-route-to-SHR": {
-          "id": "b7d12ba7-aab7-40b9-8759-1ae722f8b80f",
-          "name": "Send to OpenHIM to route to SHR",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
-        },
-        "Notify-CHW-upload-successful": {
-          "id": "32cfde7e-69a2-41db-9af3-6913440c506e",
-          "name": "Notify CHW upload successful",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
-        },
-        "Notify-CHW-upload-failed": {
-          "id": "6ca11f70-ffd3-4bef-b640-648a677977a0",
-          "name": "Notify CHW upload failed",
-          "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
-        }
-      },
+      "lock_version": 11,
+      "inserted_at": "2024-12-18T04:55:05.732796Z",
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -74,18 +15,74 @@
           "type": "webhook"
         }
       },
-      "lock_version": 19,
-      "inserted_at": "2024-09-04T12:53:02Z",
-      "concurrency": null,
-      "updated_at": "2024-09-06T11:54:06Z"
+      "jobs": {
+        "Transform-data-to-FHIR-standard": {
+          "id": "7f7ddb6e-fdad-439c-9a7c-092995cb4dfa",
+          "name": "Transform data to FHIR standard",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        },
+        "Send-to-OpenHIM-to-route-to-SHR": {
+          "id": "7e05c919-88b5-4cab-b023-12624074f9d6",
+          "name": "Send to OpenHIM to route to SHR",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        },
+        "Notify-CHW-upload-successful": {
+          "id": "70e8fa8c-a2d6-4365-b88b-a877704f66bf",
+          "name": "Notify CHW upload successful",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        },
+        "Notify-CHW-upload-failed": {
+          "id": "f7223d2a-4022-4f16-801a-8d29130c6bf1",
+          "name": "Notify CHW upload failed",
+          "body": "fn(state => state);\n",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Transform-data-to-FHIR-standard": {
+          "enabled": true,
+          "id": "b264f3ce-bb3b-4366-8992-111f9e2e3698",
+          "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
+          "target_job_id": "7f7ddb6e-fdad-439c-9a7c-092995cb4dfa",
+          "condition_type": "always"
+        },
+        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
+          "enabled": true,
+          "id": "f327de33-e7af-4e74-b46b-012ea3f23cda",
+          "source_job_id": "7f7ddb6e-fdad-439c-9a7c-092995cb4dfa",
+          "target_job_id": "7e05c919-88b5-4cab-b023-12624074f9d6",
+          "condition_type": "on_job_success"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
+          "enabled": true,
+          "id": "51b8d243-4382-467e-ac1e-8b9d32198e4c",
+          "source_job_id": "7e05c919-88b5-4cab-b023-12624074f9d6",
+          "target_job_id": "70e8fa8c-a2d6-4365-b88b-a877704f66bf",
+          "condition_type": "on_job_success"
+        },
+        "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
+          "enabled": true,
+          "id": "13c40f90-a234-49f4-8e83-72f492528ceb",
+          "source_job_id": "7e05c919-88b5-4cab-b023-12624074f9d6",
+          "target_job_id": "f7223d2a-4022-4f16-801a-8d29130c6bf1",
+          "condition_type": "on_job_failure"
+        }
+      }
     }
   },
-  "project_credentials": {},
+  "inserted_at": "2024-11-18T06:54:27Z",
+  "updated_at": "2024-11-18T06:54:27Z",
   "scheduled_deletion": null,
-  "requires_mfa": false,
-  "retention_policy": "retain_all",
-  "inserted_at": "2024-09-04T12:53:02Z",
-  "updated_at": "2024-09-06T11:54:06Z",
+  "project_credentials": {},
   "dataclip_retention_period": null,
-  "history_retention_period": null
+  "history_retention_period": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all"
 }
