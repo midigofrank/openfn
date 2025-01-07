@@ -8,8 +8,8 @@
     "OpenHIE-Workflow": {
       "id": "e7959da4-11ab-42dc-b114-b66d23c4d68b",
       "name": "OpenHIE Workflow",
-      "inserted_at": "2025-01-07T09:13:06.975128Z",
-      "lock_version": 15,
+      "inserted_at": "2025-01-07T09:19:57.800146Z",
+      "lock_version": 16,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -21,7 +21,7 @@
         "Transform-data-to-FHIR-standard": {
           "id": "7f7ddb6e-fdad-439c-9a7c-092995cb4dfa",
           "name": "Transform data to FHIR standard",
-          "body": "fn(state => state);\n// console.log('custom')\n\n",
+          "body": "fn(state => state);\n// console.log('custom')\n//\n\n",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         },
