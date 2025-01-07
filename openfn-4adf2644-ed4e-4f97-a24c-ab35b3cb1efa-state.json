@@ -12,8 +12,8 @@
     "OpenHIE-Workflow": {
       "id": "e7959da4-11ab-42dc-b114-b66d23c4d68b",
       "name": "OpenHIE Workflow",
-      "inserted_at": "2025-01-07T05:35:11.825411Z",
-      "lock_version": 12,
+      "inserted_at": "2025-01-07T05:37:30.901972Z",
+      "lock_version": 13,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -25,7 +25,7 @@
         "Transform-data-to-FHIR-standard": {
           "id": "7f7ddb6e-fdad-439c-9a7c-092995cb4dfa",
           "name": "Transform data to FHIR standard",
-          "body": "fn(state => state);\n// console.log('custom commit')\n",
+          "body": "fn(state => state);\n// console.log('custom')\n",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         },

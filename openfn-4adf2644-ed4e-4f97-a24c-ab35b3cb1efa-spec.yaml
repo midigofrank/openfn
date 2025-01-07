@@ -11,7 +11,7 @@ workflows:
         credential: null
         body: |
           fn(state => state);
-          // console.log('custom commit')
+          // console.log('custom')
 
       Send-to-OpenHIM-to-route-to-SHR:
         name: Send to OpenHIM to route to SHR
