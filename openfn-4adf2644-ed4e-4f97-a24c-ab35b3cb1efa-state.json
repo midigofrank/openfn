@@ -2,12 +2,18 @@
   "id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
   "name": "openhie-project",
   "description": null,
+  "inserted_at": "2024-11-18T06:54:27Z",
+  "updated_at": "2024-11-18T06:54:27Z",
+  "scheduled_deletion": null,
+  "history_retention_period": null,
+  "project_credentials": {},
+  "dataclip_retention_period": null,
   "workflows": {
     "OpenHIE-Workflow": {
       "id": "e7959da4-11ab-42dc-b114-b66d23c4d68b",
       "name": "OpenHIE Workflow",
-      "lock_version": 11,
       "inserted_at": "2024-12-18T04:55:05.732796Z",
+      "lock_version": 11,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -77,12 +83,6 @@
       }
     }
   },
-  "inserted_at": "2024-11-18T06:54:27Z",
-  "updated_at": "2024-11-18T06:54:27Z",
-  "scheduled_deletion": null,
-  "project_credentials": {},
-  "dataclip_retention_period": null,
-  "history_retention_period": null,
-  "requires_mfa": false,
-  "retention_policy": "retain_all"
+  "retention_policy": "retain_all",
+  "requires_mfa": false
 }
