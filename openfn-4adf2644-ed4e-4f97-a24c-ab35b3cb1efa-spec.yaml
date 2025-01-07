@@ -19,7 +19,7 @@ workflows:
         credential: null
         body: |
           fn(state => state);
-
+          // sync to github
       Notify-CHW-upload-successful:
         name: Notify CHW upload successful
         adaptor: '@openfn/language-http@latest'

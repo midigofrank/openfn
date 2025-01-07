@@ -12,8 +12,8 @@
     "OpenHIE-Workflow": {
       "id": "e7959da4-11ab-42dc-b114-b66d23c4d68b",
       "name": "OpenHIE Workflow",
-      "inserted_at": "2025-01-07T05:37:30.901972Z",
-      "lock_version": 13,
+      "inserted_at": "2025-01-07T06:12:48.899550Z",
+      "lock_version": 14,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -32,7 +32,7 @@
         "Send-to-OpenHIM-to-route-to-SHR": {
           "id": "7e05c919-88b5-4cab-b023-12624074f9d6",
           "name": "Send to OpenHIM to route to SHR",
-          "body": "fn(state => state);\n",
+          "body": "fn(state => state);\n// sync to github",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         },
