@@ -12,7 +12,6 @@ workflows:
         body: |
           fn(state => state);
           // console.log('custom')
-          //
 
       Send-to-OpenHIM-to-route-to-SHR:
         name: Send to OpenHIM to route to SHR
