@@ -1,17 +1,17 @@
 name: openhie-project
 description: null
+collections: null
 credentials: null
 workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Transform-data-t-FHIR-standard:
-        name: Transform data t FHIR standard
+      Transform-data-to-FHIR-standard:
+        name: Transform data to FHIR standard
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
           fn(state => state);
-          // console.log('custom')
 
       Send-to-OpenHIM-to-route-to-SHR:
         name: Send to OpenHIM to route to SHR
@@ -19,7 +19,7 @@ workflows:
         credential: null
         body: |
           fn(state => state);
-          // sync to github
+
       Notify-CHW-upload-successful:
         name: Notify CHW upload successful
         adaptor: '@openfn/language-http@latest'
@@ -37,15 +37,15 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: true
+        enabled: false
     edges:
-      webhook->Transform-data-t-FHIR-standard:
+      webhook->Transform-data-to-FHIR-standard:
         source_trigger: webhook
-        target_job: Transform-data-t-FHIR-standard
+        target_job: Transform-data-to-FHIR-standard
         condition_type: always
         enabled: true
-      Transform-data-t-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-data-t-FHIR-standard
+      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Transform-data-to-FHIR-standard
         target_job: Send-to-OpenHIM-to-route-to-SHR
         condition_type: on_job_success
         enabled: true
