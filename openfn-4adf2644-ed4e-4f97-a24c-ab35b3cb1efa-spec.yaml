@@ -1,18 +1,26 @@
 name: openhie-project
 description: null
 collections: null
-credentials: null
+credentials:
+  demo@openfn.org-Testing:
+    name: Testing
+    owner: demo@openfn.org
 workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Transform-deita-to-FHIR-standard:
-        name: Transform deita to FHIR standard
+      Transform-data-to-FHIR-standard:
+        name: Transform data to FHIR standard
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
-          fn(state => state);
-
+          // Alternative
+                  // another
+                   //okay
+                   // Alternative setup last sync
+          fn(state => {
+                  return state;
+          });
       Send-to-OpenHIM-to-route-to-SHR:
         name: Send to OpenHIM to route to SHR
         adaptor: '@openfn/language-http@latest'
@@ -39,13 +47,13 @@ workflows:
         type: webhook
         enabled: false
     edges:
-      webhook->Transform-deita-to-FHIR-standard:
+      webhook->Transform-data-to-FHIR-standard:
         source_trigger: webhook
-        target_job: Transform-deita-to-FHIR-standard
+        target_job: Transform-data-to-FHIR-standard
         condition_type: always
         enabled: true
-      Transform-deita-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-deita-to-FHIR-standard
+      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Transform-data-to-FHIR-standard
         target_job: Send-to-OpenHIM-to-route-to-SHR
         condition_type: on_job_success
         enabled: true
@@ -58,4 +66,25 @@ workflows:
         source_job: Send-to-OpenHIM-to-route-to-SHR
         target_job: Notify-CHW-upload-failed
         condition_type: on_job_failure
+        enabled: true
+  xyz:
+    name: xyz
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
         enabled: true
