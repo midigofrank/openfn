@@ -9,8 +9,8 @@ workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Transform-daita-to-FHIR-standard:
-        name: Transform daita to FHIR standard
+      Transform-daeta-to-FHIR-standard:
+        name: Transform daeta to FHIR standard
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
@@ -47,13 +47,13 @@ workflows:
         type: webhook
         enabled: false
     edges:
-      webhook->Transform-daita-to-FHIR-standard:
+      webhook->Transform-daeta-to-FHIR-standard:
         source_trigger: webhook
-        target_job: Transform-daita-to-FHIR-standard
+        target_job: Transform-daeta-to-FHIR-standard
         condition_type: always
         enabled: true
-      Transform-daita-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-daita-to-FHIR-standard
+      Transform-daeta-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Transform-daeta-to-FHIR-standard
         target_job: Send-to-OpenHIM-to-route-to-SHR
         condition_type: on_job_success
         enabled: true
