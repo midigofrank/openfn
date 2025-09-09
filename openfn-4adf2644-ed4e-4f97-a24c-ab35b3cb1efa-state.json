@@ -2,57 +2,21 @@
   "id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
   "name": "openhie-project",
   "description": null,
-  "collections": {},
-  "inserted_at": "2025-03-17T08:45:14Z",
-  "updated_at": "2025-03-27T13:43:56Z",
+  "concurrency": null,
+  "inserted_at": "2025-09-09T00:01:09Z",
+  "updated_at": "2025-09-09T00:01:09Z",
   "scheduled_deletion": null,
-  "history_retention_period": 7,
-  "project_credentials": {
-    "demo@openfn.org-Testing": {
-      "id": "8750f0a3-e6fb-4440-8dcd-42a389aefe8b",
-      "name": "Testing",
-      "owner": "demo@openfn.org"
-    }
-  },
+  "project_credentials": {},
+  "history_retention_period": null,
   "dataclip_retention_period": null,
-  "allow_support_access": false,
+  "retention_policy": "retain_all",
+  "collections": {},
   "workflows": {
-    "xyz": {
-      "id": "ccff5d4b-af25-4fe0-9eab-dd0507d18a62",
-      "name": "xyz",
-      "inserted_at": "2025-04-09T08:43:29.477823Z",
-      "lock_version": 1,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "8da8e338-cad2-435a-85f8-80c09b1257d4",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "New-job": {
-          "id": "46e3a2d2-3a52-4845-811a-a53bb7cc2bd9",
-          "name": "New job",
-          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->New-job": {
-          "enabled": true,
-          "id": "830dc7b3-458b-4356-84fb-ef2bedb1822b",
-          "source_trigger_id": "8da8e338-cad2-435a-85f8-80c09b1257d4",
-          "target_job_id": "46e3a2d2-3a52-4845-811a-a53bb7cc2bd9",
-          "condition_type": "always"
-        }
-      }
-    },
     "OpenHIE-Workflow": {
-      "id": "61f65480-7aed-4046-9cd0-88e4015be410",
+      "id": "471d0759-ef75-4dbd-92ce-7372a412410e",
       "name": "OpenHIE Workflow",
-      "inserted_at": "2025-04-30T16:24:16.752648Z",
-      "lock_version": 51,
+      "inserted_at": "2025-09-09T00:01:09.925429Z",
+      "lock_version": 9,
       "triggers": {
         "webhook": {
           "enabled": false,
@@ -61,68 +25,67 @@
         }
       },
       "jobs": {
-        "Transform-daeyta-to-FHIR-standard": {
-          "id": "dd9c6962-0602-4797-b0ff-61c3bbee2288",
-          "name": "Transform daeyta to FHIR standard",
-          "body": "// Alternative\n        // another\n         //okay\n         // Alternative setup last sync\nfn(state => {\n        return state;\n});",
+        "Transform-data-to-FHIR-standard": {
+          "id": "7fcfb648-7948-4589-bdf8-cf0ed75d17c9",
+          "name": "Transform data to FHIR standard",
+          "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         },
         "Send-to-OpenHIM-to-route-to-SHR": {
-          "id": "be2e856e-6394-4e44-ad2b-0f10c7db5d2e",
+          "id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
           "name": "Send to OpenHIM to route to SHR",
           "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         },
         "Notify-CHW-upload-successful": {
-          "id": "9e3c4f38-c414-441c-9846-7707c4416358",
+          "id": "69125796-0bd7-4d34-9795-205261ff3716",
           "name": "Notify CHW upload successful",
           "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         },
         "Notify-CHW-upload-failed": {
-          "id": "829010b7-356c-4d75-b64c-7add6629d8f8",
+          "id": "be15139c-0d33-48de-887e-e4fb54db5b77",
           "name": "Notify CHW upload failed",
-          "body": "fn(state => state);\n\n",
+          "body": "fn(state => state);\n",
           "adaptor": "@openfn/language-http@latest",
           "project_credential_id": null
         }
       },
       "edges": {
-        "webhook->Transform-daeyta-to-FHIR-standard": {
+        "webhook->Transform-data-to-FHIR-standard": {
           "enabled": true,
-          "id": "91b99288-cfff-43aa-a723-087823c48343",
+          "id": "8fbe7501-d383-4b34-ae69-96939a804efe",
+          "target_job_id": "7fcfb648-7948-4589-bdf8-cf0ed75d17c9",
           "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
-          "target_job_id": "dd9c6962-0602-4797-b0ff-61c3bbee2288",
           "condition_type": "always"
         },
-        "Transform-daeyta-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
+        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
           "enabled": true,
-          "id": "16ef62c5-c8f0-430e-878d-8a108488ce0d",
-          "source_job_id": "dd9c6962-0602-4797-b0ff-61c3bbee2288",
-          "target_job_id": "be2e856e-6394-4e44-ad2b-0f10c7db5d2e",
+          "id": "08de0fdb-f692-400d-93db-28c39052508b",
+          "target_job_id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
+          "source_job_id": "7fcfb648-7948-4589-bdf8-cf0ed75d17c9",
           "condition_type": "on_job_success"
         },
         "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
           "enabled": true,
-          "id": "76c7b631-a544-4d54-b8d7-c1780d0f8a38",
-          "source_job_id": "be2e856e-6394-4e44-ad2b-0f10c7db5d2e",
-          "target_job_id": "9e3c4f38-c414-441c-9846-7707c4416358",
+          "id": "9420d37d-09a3-42d3-9726-4a56d8cdd0f8",
+          "target_job_id": "69125796-0bd7-4d34-9795-205261ff3716",
+          "source_job_id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
           "condition_type": "on_job_success"
         },
         "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
           "enabled": true,
-          "id": "525161c2-e13c-42d5-ae6d-a74eb9f82589",
-          "source_job_id": "be2e856e-6394-4e44-ad2b-0f10c7db5d2e",
-          "target_job_id": "829010b7-356c-4d75-b64c-7add6629d8f8",
+          "id": "8124cb87-ed29-4332-9d12-83ecbe739482",
+          "target_job_id": "be15139c-0d33-48de-887e-e4fb54db5b77",
+          "source_job_id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
           "condition_type": "on_job_failure"
         }
       }
     }
   },
-  "retention_policy": "retain_all",
-  "concurrency": null,
+  "allow_support_access": false,
   "requires_mfa": false
 }
