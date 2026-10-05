@@ -1,0 +1,39 @@
+id: openhie-workflow
+name: OpenHIE Workflow
+start: webhook
+steps:
+  - id: notify-chw-upload-failed
+    name: Notify CHW upload failed
+    adaptor: '@openfn/language-http@latest'
+    expression: ./notify-chw-upload-failed.js
+  - id: notify-chw-upload-successful
+    name: Notify CHW upload successful
+    adaptor: '@openfn/language-http@latest'
+    expression: ./notify-chw-upload-successful.js
+  - id: send-to-openhim-to-route-to-shr
+    name: Send to OpenHIM to route to SHR
+    adaptor: '@openfn/language-http@latest'
+    expression: ./send-to-openhim-to-route-to-shr.js
+    next:
+      notify-chw-upload-successful:
+        disabled: false
+        condition: on_job_success
+      notify-chw-upload-failed:
+        disabled: false
+        condition: on_job_failure
+  - id: transform-data-to-fhir-standard1
+    name: Transform data to FHIR standard1
+    adaptor: '@openfn/language-http@latest'
+    expression: ./transform-data-to-fhir-standard1.js
+    next:
+      send-to-openhim-to-route-to-shr:
+        disabled: false
+        condition: on_job_success
+  - id: webhook
+    type: webhook
+    enabled: false
+    webhook_reply: before_start
+    next:
+      transform-data-to-fhir-standard1:
+        disabled: false
+        condition: always

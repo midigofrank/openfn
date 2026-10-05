@@ -1,0 +1,95 @@
+id: openhie-project
+name: openhie-project
+schema_version: '4.0'
+collections: []
+channels:
+  - enabled: true
+    id: 3dcf9011-bc61-436e-a105-32823d73c123
+    name: test-channel
+    destination_credential_id: null
+    destination_url: https://example.com/hook3
+  - enabled: true
+    id: 7f80738b-3a38-4202-a1f8-16903bfc21ec
+    name: Second Channel
+    destination_credential_id: null
+    destination_url: https://example.com/second-v2
+credentials: []
+openfn:
+  uuid: 4adf2644-ed4e-4f97-a24c-ab35b3cb1efa
+  endpoint: https://3991-197-237-71-108.ngrok-free.app
+  inserted_at: 2026-09-01T13:09:39Z
+  updated_at: 2026-10-02T12:39:51Z
+options:
+  allow_support_access: false
+  requires_mfa: false
+  retention_policy: retain_all
+workflows:
+  - name: OpenHIE Workflow
+    steps:
+      - id: notify-chw-upload-failed
+        name: Notify CHW upload failed
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: fa62d642-bfc7-4f3a-b7c2-d54c6dba7e95
+      - id: notify-chw-upload-successful
+        name: Notify CHW upload successful
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 732523ce-4f00-4352-a248-ee3519b0eede
+      - id: send-to-openhim-to-route-to-shr
+        name: Send to OpenHIM to route to SHR
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 11b54c45-e126-409b-a126-b1f49d6fb7f5
+        next:
+          notify-chw-upload-successful:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: c7bb0c5b-c7cf-4910-ae76-b75d448c672d
+          notify-chw-upload-failed:
+            disabled: false
+            condition: on_job_failure
+            openfn:
+              uuid: 81fd35c6-c335-4031-80ec-c67e7434ea18
+      - id: transform-data-to-fhir-standard1
+        name: Transform data to FHIR standard1
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 381daed4-a1ae-45a3-88c4-b27485b2d3de
+        next:
+          send-to-openhim-to-route-to-shr:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: feaadc99-b7f6-4c86-9a24-9f33e40fb302
+      - id: webhook
+        type: webhook
+        enabled: false
+        webhook_reply: before_start
+        openfn:
+          uuid: cae544ab-03dc-4ccc-a09c-fb4edb255d7a
+        next:
+          transform-data-to-fhir-standard1:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: eb696f4d-6567-42a8-bb0f-166e3eae4f0b
+    history:
+      - app:9d02168a212e
+      - app:c0c71ae45ce6
+    openfn:
+      uuid: 6ce1b0b3-ad4e-4842-bab8-028b81660c53
+      inserted_at: 2026-09-01T13:09:39Z
+      updated_at: 2026-09-02T14:50:47Z
+      lock_version: 11
+    id: openhie-workflow
+    start: webhook

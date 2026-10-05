@@ -1,3 +1,18 @@
 project:
   uuid: 4adf2644-ed4e-4f97-a24c-ab35b3cb1efa
   endpoint: https://3991-197-237-71-108.ngrok-free.app
+  inserted_at: 2026-09-01T13:09:39Z
+  updated_at: 2026-10-02T12:39:51Z
+  id: openhie-project
+  name: openhie-project
+  forked_from:
+    openhie-workflow: app:c0c71ae45ce6
+workspace:
+  credentials: credentials.yaml
+  dirs:
+    projects: .projects
+    workflows: workflows
+  formats:
+    openfn: yaml
+    project: yaml
+    workflow: yaml
