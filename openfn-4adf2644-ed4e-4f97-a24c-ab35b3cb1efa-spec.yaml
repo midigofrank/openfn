@@ -1,13 +1,24 @@
 name: openhie-project
 description: null
 collections: null
+channels:
+  Second-Channel:
+    name: Second Channel
+    destination_url: 'https://example.com/second-v2'
+    enabled: true
+    destination_credential: null
+  test-channel:
+    name: test-channel
+    destination_url: 'https://example.com/hook3'
+    enabled: true
+    destination_credential: null
 credentials: null
 workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Transform-data-to-FHIR-standard:
-        name: Transform data to FHIR standard
+      Transform-data-to-FHIR-standard1:
+        name: Transform data to FHIR standard1
         adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
@@ -37,15 +48,16 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: false
     edges:
-      webhook->Transform-data-to-FHIR-standard:
+      webhook->Transform-data-to-FHIR-standard1:
         source_trigger: webhook
-        target_job: Transform-data-to-FHIR-standard
+        target_job: Transform-data-to-FHIR-standard1
         condition_type: always
         enabled: true
-      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-data-to-FHIR-standard
+      Transform-data-to-FHIR-standard1->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Transform-data-to-FHIR-standard1
         target_job: Send-to-OpenHIM-to-route-to-SHR
         condition_type: on_job_success
         enabled: true

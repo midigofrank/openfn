@@ -1,91 +1,111 @@
 {
+  "env": null,
   "id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
   "name": "openhie-project",
   "description": null,
-  "concurrency": null,
-  "inserted_at": "2025-09-09T00:01:09Z",
-  "updated_at": "2025-09-09T00:01:09Z",
-  "scheduled_deletion": null,
-  "project_credentials": {},
-  "history_retention_period": null,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
+  "color": null,
   "collections": {},
+  "inserted_at": "2026-09-01T13:09:39Z",
+  "updated_at": "2026-10-02T12:39:51Z",
+  "scheduled_deletion": null,
+  "parent_id": null,
+  "allow_support_access": false,
+  "history_retention_period": null,
+  "channels": {
+    "test-channel": {
+      "enabled": true,
+      "id": "3dcf9011-bc61-436e-a105-32823d73c123",
+      "name": "test-channel",
+      "destination_credential_id": null,
+      "destination_url": "https://example.com/hook3"
+    },
+    "Second-Channel": {
+      "enabled": true,
+      "id": "7f80738b-3a38-4202-a1f8-16903bfc21ec",
+      "name": "Second Channel",
+      "destination_credential_id": null,
+      "destination_url": "https://example.com/second-v2"
+    }
+  },
+  "concurrency": null,
+  "dataclip_retention_period": null,
+  "project_credentials": {},
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
   "workflows": {
     "OpenHIE-Workflow": {
-      "id": "471d0759-ef75-4dbd-92ce-7372a412410e",
+      "id": "6ce1b0b3-ad4e-4842-bab8-028b81660c53",
       "name": "OpenHIE Workflow",
-      "inserted_at": "2025-09-09T00:01:09.925429Z",
-      "lock_version": 9,
+      "inserted_at": "2026-09-02T14:50:47.577409Z",
+      "lock_version": 11,
       "triggers": {
         "webhook": {
           "enabled": false,
           "id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
-          "type": "webhook"
+          "type": "webhook",
+          "webhook_reply": "before_start"
         }
       },
       "jobs": {
-        "Transform-data-to-FHIR-standard": {
-          "id": "7fcfb648-7948-4589-bdf8-cf0ed75d17c9",
-          "name": "Transform data to FHIR standard",
+        "Transform-data-to-FHIR-standard1": {
+          "id": "381daed4-a1ae-45a3-88c4-b27485b2d3de",
+          "name": "Transform data to FHIR standard1",
           "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
+          "project_credential_id": null,
+          "adaptor": "@openfn/language-http@latest"
         },
         "Send-to-OpenHIM-to-route-to-SHR": {
-          "id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
+          "id": "11b54c45-e126-409b-a126-b1f49d6fb7f5",
           "name": "Send to OpenHIM to route to SHR",
           "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
+          "project_credential_id": null,
+          "adaptor": "@openfn/language-http@latest"
         },
         "Notify-CHW-upload-successful": {
-          "id": "69125796-0bd7-4d34-9795-205261ff3716",
+          "id": "732523ce-4f00-4352-a248-ee3519b0eede",
           "name": "Notify CHW upload successful",
           "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
+          "project_credential_id": null,
+          "adaptor": "@openfn/language-http@latest"
         },
         "Notify-CHW-upload-failed": {
-          "id": "be15139c-0d33-48de-887e-e4fb54db5b77",
+          "id": "fa62d642-bfc7-4f3a-b7c2-d54c6dba7e95",
           "name": "Notify CHW upload failed",
           "body": "fn(state => state);\n",
-          "adaptor": "@openfn/language-http@latest",
-          "project_credential_id": null
+          "project_credential_id": null,
+          "adaptor": "@openfn/language-http@latest"
         }
       },
       "edges": {
-        "webhook->Transform-data-to-FHIR-standard": {
+        "webhook->Transform-data-to-FHIR-standard1": {
           "enabled": true,
-          "id": "8fbe7501-d383-4b34-ae69-96939a804efe",
-          "target_job_id": "7fcfb648-7948-4589-bdf8-cf0ed75d17c9",
+          "id": "eb696f4d-6567-42a8-bb0f-166e3eae4f0b",
+          "target_job_id": "381daed4-a1ae-45a3-88c4-b27485b2d3de",
           "source_trigger_id": "cae544ab-03dc-4ccc-a09c-fb4edb255d7a",
           "condition_type": "always"
         },
-        "Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR": {
+        "Transform-data-to-FHIR-standard1->Send-to-OpenHIM-to-route-to-SHR": {
           "enabled": true,
-          "id": "08de0fdb-f692-400d-93db-28c39052508b",
-          "target_job_id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
-          "source_job_id": "7fcfb648-7948-4589-bdf8-cf0ed75d17c9",
+          "id": "feaadc99-b7f6-4c86-9a24-9f33e40fb302",
+          "target_job_id": "11b54c45-e126-409b-a126-b1f49d6fb7f5",
+          "source_job_id": "381daed4-a1ae-45a3-88c4-b27485b2d3de",
           "condition_type": "on_job_success"
         },
         "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful": {
           "enabled": true,
-          "id": "9420d37d-09a3-42d3-9726-4a56d8cdd0f8",
-          "target_job_id": "69125796-0bd7-4d34-9795-205261ff3716",
-          "source_job_id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
+          "id": "c7bb0c5b-c7cf-4910-ae76-b75d448c672d",
+          "target_job_id": "732523ce-4f00-4352-a248-ee3519b0eede",
+          "source_job_id": "11b54c45-e126-409b-a126-b1f49d6fb7f5",
           "condition_type": "on_job_success"
         },
         "Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed": {
           "enabled": true,
-          "id": "8124cb87-ed29-4332-9d12-83ecbe739482",
-          "target_job_id": "be15139c-0d33-48de-887e-e4fb54db5b77",
-          "source_job_id": "52e7f182-f247-4c5d-bc0c-287287ffc164",
+          "id": "81fd35c6-c335-4031-80ec-c67e7434ea18",
+          "target_job_id": "fa62d642-bfc7-4f3a-b7c2-d54c6dba7e95",
+          "source_job_id": "11b54c45-e126-409b-a126-b1f49d6fb7f5",
           "condition_type": "on_job_failure"
         }
       }
     }
-  },
-  "allow_support_access": false,
-  "requires_mfa": false
+  }
 }
