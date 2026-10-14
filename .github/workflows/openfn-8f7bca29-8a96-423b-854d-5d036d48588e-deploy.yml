@@ -28,5 +28,5 @@ jobs:
         with:
           secret_input: ${{ secrets.OPENFN_8f7bca29_8a96_423b_854d_5d036d48588e_API_KEY }}
           project_id_input: '8f7bca29-8a96-423b-854d-5d036d48588e'
-          endpoint_input: 'http://localhost:4000'
+          endpoint_input: 'https://e4b0-197-237-71-108.ngrok-free.app'
           force_input: ${{ inputs.force || false }}
