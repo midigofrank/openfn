@@ -1,0 +1,14 @@
+id: sync-test
+name: Sync test
+start: webhook
+steps:
+  - id: webhook
+    type: webhook
+    next:
+      log-payload:
+        disabled: false
+        condition: always
+  - id: log-payload
+    name: Log payload
+    adaptor: '@openfn/language-common@latest'
+    expression: ./log-payload.js

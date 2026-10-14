@@ -1,5 +1,5 @@
 id: cat-poem-generator
-name: Cat Poem Generator
+name: Cat Poem Generator (renamed in git)
 start: cron
 steps:
   - id: cron
