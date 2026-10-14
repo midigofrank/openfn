@@ -1,0 +1,15 @@
+id: fetch-google-sheet-data
+name: Fetch Google Sheet Data
+start: cron
+steps:
+  - id: cron
+    type: cron
+    cron_expression: '*/1 * * * *'
+    next:
+      get-data:
+        disabled: false
+        condition: always
+  - id: get-data
+    name: Get data
+    adaptor: '@openfn/language-googlesheets@5.1.1'
+    expression: ./get-data.js

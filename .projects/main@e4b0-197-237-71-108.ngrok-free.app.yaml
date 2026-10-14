@@ -1,0 +1,400 @@
+id: frank-demo
+name: frank-demo
+schema_version: '4.0'
+collections: []
+channels:
+  - enabled: true
+    id: dfe79df7-41e3-49d3-ac95-5b03b2b3bea5
+    name: Second Channel
+    destination_credential_id: null
+    destination_url: https://example.com/second-v2
+  - enabled: true
+    id: 27c1d66e-6ebc-4447-9389-9102ed9753c6
+    name: test-channel
+    destination_credential_id: null
+    destination_url: https://example.com/hook3
+credentials: []
+openfn:
+  uuid: 8f7bca29-8a96-423b-854d-5d036d48588e
+  endpoint: https://e4b0-197-237-71-108.ngrok-free.app
+  inserted_at: 2026-10-06T08:05:11Z
+  updated_at: 2026-10-13T09:07:27Z
+options:
+  allow_support_access: false
+  requires_mfa: false
+  retention_policy: retain_all
+workflows:
+  - name: Cat Poem Generator
+    steps:
+      - id: cron
+        type: cron
+        cron_expression: 0 9 * * *
+        openfn:
+          enabled: false
+          uuid: 5965974e-f2cc-419b-9c1b-7ec3f001ead8
+        next:
+          generate-cat-poem:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: 68c75ffe-0b2e-4431-91f1-1af7dbfff717
+      - id: generate-cat-poem
+        name: generate-cat-poem
+        expression: >-
+          prompt('Write a short, fun poem about cats.', { model:
+          'gemini-3.6-flash' });
+
+
+          fn(state => {
+            console.log('prompt response:', JSON.stringify(state.data, null, 2));
+            return { ...state, catPoem: { text: state.data.response } };
+          });
+        adaptor: '@openfn/language-gemini@1.0.8'
+        openfn:
+          uuid: 86f2b9b8-7b15-4200-84cc-bf5715e782e6
+        next:
+          send-to-discord:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: 04110b41-9a24-4de2-af89-62fa80beb923
+      - id: send-to-discord
+        name: send-to-discord
+        expression: |-
+          post($.configuration.baseUrl, {
+            body: {
+              content: $.catPoem.text,
+            },
+          });
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: c1080a38-2e3a-417c-83a0-e61318bb2704
+    history:
+      - cli:6be66fe18648
+    openfn:
+      uuid: 4385723d-7a55-45eb-8fe0-681d8b667e27
+      inserted_at: 2026-10-06T08:05:11Z
+      updated_at: 2026-10-06T08:05:11Z
+      lock_version: 1
+    id: cat-poem-generator
+    start: cron
+  - name: Event-based workflow
+    steps:
+      - id: http
+        name: Http
+        expression: |-
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-
+
+          fn(state => {
+            console.log("is this logged?");
+            b = a * 10;
+            return state.data.x * 4;
+            });
+        adaptor: '@openfn/language-http@7.3.1'
+        openfn:
+          uuid: 419001ff-a02b-47ce-a38e-29129d12035d
+      - id: transform-data
+        name: Transform data
+        expression: |
+          // Validate and transform the data you've received...
+          fn(state => {
+            console.log("Do some data transformation here");
+            state.webhookResponse = {status: 200, body: state.data};
+            return state;
+          })
+        adaptor: '@openfn/language-common@latest'
+        openfn:
+          uuid: a43989a3-1d95-465f-b173-56e889d39d6f
+        next:
+          http:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: 02640022-8421-4fe4-afb8-df97eec0d47d
+      - id: webhook
+        type: webhook
+        webhook_reply: after_completion
+        webhook_response_config: {}
+        openfn:
+          enabled: false
+          uuid: 1cffa41d-56cb-473d-b35a-5ea5652b2aa0
+        next:
+          transform-data:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: 6b60016d-e93b-497d-b524-7232753d9faf
+    history:
+      - cli:425db74cfa89
+    openfn:
+      uuid: df018302-ff4c-4f16-b828-32216e496de0
+      inserted_at: 2026-10-06T08:05:11Z
+      updated_at: 2026-10-06T08:05:11Z
+      lock_version: 1
+    id: event-based-workflow
+    start: webhook
+  - name: Fetch Google Sheet Data
+    steps:
+      - id: cron
+        type: cron
+        cron_expression: '*/1 * * * *'
+        openfn:
+          enabled: false
+          uuid: ada660d4-d620-47dc-9630-b2a18d95b474
+        next:
+          get-data:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: 1ab6899b-a3fe-4fd3-9070-2ba45c57ffe5
+      - id: get-data
+        name: Get data
+        expression: >
+          // Read data from the Google Sheet
+
+          getValues('17xd3lmxlup-bxVS-U6agvD6L7UQm6DzEsU43Iw2Fas4',
+          'Sheet1!A:Z');
+
+
+          // Convert the rows into JSON objects (first row = headers)
+
+          fn(state => {
+            const [headers, ...rows] = state.data.values;
+            const json = rows.map(row => {
+              return headers.reduce((obj, key, i) => {
+                obj[key] = row[i];
+                return obj;
+              }, {});
+            });
+
+            return { ...state, data: json };
+          });
+        adaptor: '@openfn/language-googlesheets@5.1.1'
+        openfn:
+          uuid: 57c7b7df-4869-41d8-971a-9fcf4ef95e7c
+    history:
+      - cli:abaa91539a0a
+    openfn:
+      uuid: 65088d55-259d-4011-a51f-293b2ddf18aa
+      inserted_at: 2026-10-06T08:05:11Z
+      updated_at: 2026-10-06T08:05:11Z
+      lock_version: 1
+    id: fetch-google-sheet-data
+    start: cron
+  - name: Sample Workflow
+    steps:
+      - id: job-1-check-if-age-is-over-18-months
+        name: Job 1 - Check if age is over 18 months
+        expression: |2
+            fn(state => {
+              console.log(state);
+              
+              if (state.data.age_in_months > 18) {
+                console.log('Eligible for program.');
+                return state;
+              }
+              else { throw 'Error, patient ineligible.' }
+            });
+        adaptor: '@openfn/language-common@latest'
+        openfn:
+          uuid: 6f5c93ea-0465-485a-95a8-0e9e8b53697b
+        next:
+          job-2-convert-data-to-dhis2-format:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: d8c57118-e66b-4e4d-b746-d5418f781544
+      - id: job-2-convert-data-to-dhis2-format
+        name: Job 2 - Convert data to DHIS2 format
+        expression: |2
+            fn(state => {
+              const names = state.data.name.split(' ');
+              return { ...state, names };
+            });
+        adaptor: '@openfn/language-common@latest'
+        openfn:
+          uuid: 237c99c5-781d-40bc-abe4-48a0fbad4210
+        next:
+          job-3-upload-to-dhis2:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: 6b9871cf-4974-4200-a760-2fb60df40a04
+      - id: job-3-upload-to-dhis2
+        name: Job 3 - Upload to DHIS2
+        expression: |2
+            create('trackedEntityInstances', {
+              trackedEntityType: 'nEenWmSyUEp', // a person
+              orgUnit: 'DiszpKrYNg8',
+              attributes: [
+                {
+                  attribute: 'w75KJ2mc4zz', // attribute id for first name
+                  value: state.names[0] // the first name from submission
+                },
+                {
+                  attribute: 'zDhUuAYrxNC', // attribute id for last name
+                  value: state.names[1] // the last name from submission
+                }
+              ]
+            });
+        adaptor: '@openfn/language-dhis2@latest'
+        openfn:
+          uuid: 9b34858e-6839-4779-8aac-f7d1f1275eaf
+      - id: webhook
+        type: webhook
+        webhook_reply: after_completion
+        webhook_response_config: {}
+        openfn:
+          enabled: false
+          uuid: a89f6524-8baa-4faf-867e-e1e624f9db68
+        next:
+          job-1-check-if-age-is-over-18-months:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: c1e163f9-b41d-43ff-820a-81f2e82f5cc5
+    history:
+      - cli:c97e76bc9437
+    openfn:
+      uuid: e7b3d632-5e7d-4209-b3c0-6f1b97a423aa
+      inserted_at: 2026-10-06T08:05:11Z
+      updated_at: 2026-10-06T08:05:11Z
+      lock_version: 1
+    id: sample-workflow
+    start: webhook
+  - name: Scheduled workflow
+    steps:
+      - id: cron
+        type: cron
+        cron_expression: 0/1 0 * * *
+        cron_cursor_job_id: get-data
+        openfn:
+          enabled: false
+          uuid: c84c0054-972e-4410-a66c-ad96e2d7a68a
+        next:
+          get-data:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: 516cbace-a553-4f3d-b32c-c0389fe28481
+      - id: get-data
+        name: Get data
+        expression: |
+          // Get some data from an API...
+          get('https://www.example.com');
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 0af4cb7d-a9fd-4ec8-92ab-a21bf46b7567
+    history:
+      - cli:2c0b602dca75
+    openfn:
+      uuid: 86fddde1-685b-4b4f-ab16-2bef5878b862
+      inserted_at: 2026-10-06T08:05:11Z
+      updated_at: 2026-10-06T08:05:11Z
+      lock_version: 1
+    id: scheduled-workflow
+    start: cron
+  - name: Renamed By Alias Test
+    steps:
+      - id: transform-data
+        name: Transform data
+        expression: |
+          // Validate and transform the data you've received...
+          fn(state => {
+            console.log("CI deploy test");
+            return state;
+          })
+        adaptor: '@openfn/language-common@latest'
+        openfn:
+          uuid: 2dd9cd55-14b1-4d09-9672-903044b3820a
+      - id: webhook
+        type: webhook
+        webhook_reply: before_start
+        openfn:
+          enabled: false
+          uuid: ea2f5b00-27b8-4011-8e1f-8c38c7041869
+        next:
+          transform-data:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: 66f6b9e4-d819-4408-adc4-2b040bbc5484
+    history:
+      - cli:12f107ef74c7
+      - cli:88b19f88afb1
+    openfn:
+      uuid: 44bcaaae-7542-4534-9bfc-1d91ea526885
+      inserted_at: 2026-10-06T08:05:11Z
+      updated_at: 2026-10-12T12:09:25Z
+      lock_version: 4
+    id: renamed-by-alias-test
+    start: webhook
+  - name: OpenHIE Workflow
+    steps:
+      - id: notify-chw-upload-failed
+        name: Notify CHW upload failed
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 3dc02c04-3d97-4afb-9773-b4ee06d3d7e5
+      - id: notify-chw-upload-successful
+        name: Notify CHW upload successful
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 49747c63-c6c7-47c6-9b86-260eca29e6e0
+      - id: send-to-openhim-to-route-to-shr
+        name: Send to OpenHIM to route to SHR
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: fd2dcbeb-3ff7-4c06-90e1-5f5ce29389a1
+        next:
+          notify-chw-upload-successful:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: a088fa87-5f12-46af-9208-4903db0e69dd
+          notify-chw-upload-failed:
+            disabled: false
+            condition: on_job_failure
+            openfn:
+              uuid: 94b0888f-5d9f-4dd7-ad6e-0de6bbbdd00a
+      - id: transform-data-to-fhir-standard1
+        name: Transform data to FHIR standard1
+        expression: |
+          fn(state => state);
+        adaptor: '@openfn/language-http@latest'
+        openfn:
+          uuid: 65e02c10-0d13-41d1-99f5-7ef4932ab211
+        next:
+          send-to-openhim-to-route-to-shr:
+            disabled: false
+            condition: on_job_success
+            openfn:
+              uuid: 9c3dab08-591e-4f21-9257-1c9bfc63e78a
+      - id: webhook
+        type: webhook
+        webhook_reply: before_start
+        openfn:
+          enabled: false
+          uuid: 706643f7-f0eb-4e8c-bac0-a3bc15656df3
+        next:
+          transform-data-to-fhir-standard1:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: 9967db73-ad35-410a-92fc-326d2cbcca0f
+    history:
+      - cli:c0c71ae45ce6
+    openfn:
+      uuid: 1072af58-af2b-41e4-8ac1-54094f4d0eba
+      inserted_at: 2026-10-13T09:07:27Z
+      updated_at: 2026-10-13T09:07:27Z
+      lock_version: 1
+    id: openhie-workflow
+    start: webhook

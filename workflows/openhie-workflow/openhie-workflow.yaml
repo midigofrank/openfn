@@ -31,7 +31,6 @@ steps:
         condition: on_job_success
   - id: webhook
     type: webhook
-    enabled: false
     webhook_reply: before_start
     next:
       transform-data-to-fhir-standard1:

@@ -1,0 +1,32 @@
+id: sample-workflow
+name: Sample Workflow
+start: webhook
+steps:
+  - id: job-1-check-if-age-is-over-18-months
+    name: Job 1 - Check if age is over 18 months
+    adaptor: '@openfn/language-common@latest'
+    expression: ./job-1-check-if-age-is-over-18-months.js
+    next:
+      job-2-convert-data-to-dhis2-format:
+        disabled: false
+        condition: on_job_success
+  - id: job-2-convert-data-to-dhis2-format
+    name: Job 2 - Convert data to DHIS2 format
+    adaptor: '@openfn/language-common@latest'
+    expression: ./job-2-convert-data-to-dhis2-format.js
+    next:
+      job-3-upload-to-dhis2:
+        disabled: false
+        condition: on_job_success
+  - id: job-3-upload-to-dhis2
+    name: Job 3 - Upload to DHIS2
+    adaptor: '@openfn/language-dhis2@latest'
+    expression: ./job-3-upload-to-dhis2.js
+  - id: webhook
+    type: webhook
+    webhook_reply: after_completion
+    webhook_response_config: {}
+    next:
+      job-1-check-if-age-is-over-18-months:
+        disabled: false
+        condition: always
