@@ -7,18 +7,21 @@ on:
       apiSecretName:
         description: 'OpenFN API Key secret name i.e OPENFN_project_API_KEY'
         required: true
-      pathToConfig:
-        description: 'Path to config.json'
+      endpoint:
+        description: 'OpenFn instance URL'
         required: true
       branch:
-        description: 'Branch to commit the project state and spec'
+        description: 'Branch to commit the project to'
         required: true
       commitMessage:
-        description: 'Commit message for project state and spec'
+        description: 'Commit message for the project'
         required: true
-      snapshots:
-        description: 'IDs of snapshots separated by spaces'
-        required: false
+
+# Shared with openfn-<project>-deploy.yml so a pull and a deploy never push to
+# the same branch at once
+concurrency:
+  group: openfn-${{ inputs.branch }}
+  cancel-in-progress: false
 
 jobs:
   pull-from-lightning:
@@ -28,11 +31,10 @@ jobs:
     name: A job to pull changes from Lightning
     steps:
       - name: openfn pull and commit
-        uses: openfn/cli-pull-action@v1
+        uses: midigofrank/cli-pull-action@v2
         with:
           secret_input: ${{ secrets[inputs.apiSecretName] }}
           project_id_input: ${{ inputs.projectId }}
-          config_path_input: ${{ inputs.pathToConfig }}
+          endpoint_input: ${{ inputs.endpoint }}
           branch_input: ${{ inputs.branch }}
           commit_message_input: ${{ inputs.commitMessage }}
-          snapshots_input: ${{ inputs.snapshots }}
