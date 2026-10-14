@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force:
+        description:
+          'Deploy even if the project has changed in OpenFn since the last sync'
+        type: boolean
+        default: false
+
+# Shared with openfn-pull.yml so a pull and a deploy never push to the same
+# branch at once
+concurrency:
+  group: openfn-main
+  cancel-in-progress: false
+
+jobs:
+  deploy-to-lightning:
+    runs-on: ubuntu-latest
+    name: A job to deploy to Lightning
+    permissions:
+      contents: write
+    steps:
+      - name: openfn deploy
+        uses: midigofrank/cli-deploy-action@v2
+        with:
+          secret_input: ${{ secrets.OPENFN_8f7bca29_8a96_423b_854d_5d036d48588e_API_KEY }}
+          project_id_input: '8f7bca29-8a96-423b-854d-5d036d48588e'
+          endpoint_input: 'https://e4b0-197-237-71-108.ngrok-free.app'
+          workspace_input: '.'
+          # A commit with [openfn force] in its message forces the deploy too
+          force_input: ${{ inputs.force || contains(github.event.head_commit.message, '[openfn force]') }}
