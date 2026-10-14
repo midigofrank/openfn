@@ -1,15 +1,15 @@
 alias: main
 endpoint: https://e4b0-197-237-71-108.ngrok-free.app
 forked_from:
-  cat-poem-generator: cli:6be66fe18648
+  cat-poem-generator-renamed-in-git: cli:a767dbf55349
   event-based-workflow: cli:425db74cfa89
   fetch-google-sheet-data: cli:abaa91539a0a
   openhie-workflow: cli:c0c71ae45ce6
-  renamed-by-alias-test: cli:88b19f88afb1
   sample-workflow: cli:c97e76bc9437
   scheduled-workflow: cli:2c0b602dca75
+  sync-test: cli:362bebdb9c9b
 id: frank-demo
 inserted_at: 2026-10-06T08:05:11Z
 name: frank-demo
-updated_at: 2026-10-13T09:07:27Z
+updated_at: 2026-10-14T14:31:59Z
 uuid: 8f7bca29-8a96-423b-854d-5d036d48588e

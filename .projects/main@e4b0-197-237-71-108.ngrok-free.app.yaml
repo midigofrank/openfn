@@ -1,6 +1,15 @@
 id: frank-demo
 name: frank-demo
 schema_version: '4.0'
+cli:
+  forked_from:
+    cat-poem-generator-renamed-in-git: cli:a767dbf55349
+    event-based-workflow: cli:425db74cfa89
+    fetch-google-sheet-data: cli:abaa91539a0a
+    sample-workflow: cli:c97e76bc9437
+    scheduled-workflow: cli:2c0b602dca75
+    openhie-workflow: cli:c0c71ae45ce6
+    sync-test: cli:362bebdb9c9b
 collections: []
 channels:
   - enabled: true
@@ -18,13 +27,13 @@ openfn:
   uuid: 8f7bca29-8a96-423b-854d-5d036d48588e
   endpoint: https://e4b0-197-237-71-108.ngrok-free.app
   inserted_at: 2026-10-06T08:05:11Z
-  updated_at: 2026-10-13T09:07:27Z
+  updated_at: 2026-10-14T14:31:59Z
 options:
   allow_support_access: false
   requires_mfa: false
   retention_policy: retain_all
 workflows:
-  - name: Cat Poem Generator
+  - name: Cat Poem Generator (renamed in git)
     steps:
       - id: cron
         type: cron
@@ -71,12 +80,13 @@ workflows:
           uuid: c1080a38-2e3a-417c-83a0-e61318bb2704
     history:
       - cli:6be66fe18648
+      - cli:a767dbf55349
     openfn:
       uuid: 4385723d-7a55-45eb-8fe0-681d8b667e27
       inserted_at: 2026-10-06T08:05:11Z
-      updated_at: 2026-10-06T08:05:11Z
-      lock_version: 1
-    id: cat-poem-generator
+      updated_at: 2026-10-14T14:31:59Z
+      lock_version: 2
+    id: cat-poem-generator-renamed-in-git
     start: cron
   - name: Event-based workflow
     steps:
@@ -295,41 +305,6 @@ workflows:
       lock_version: 1
     id: scheduled-workflow
     start: cron
-  - name: Renamed By Alias Test
-    steps:
-      - id: transform-data
-        name: Transform data
-        expression: |
-          // Validate and transform the data you've received...
-          fn(state => {
-            console.log("CI deploy test");
-            return state;
-          })
-        adaptor: '@openfn/language-common@latest'
-        openfn:
-          uuid: 2dd9cd55-14b1-4d09-9672-903044b3820a
-      - id: webhook
-        type: webhook
-        webhook_reply: before_start
-        openfn:
-          enabled: false
-          uuid: ea2f5b00-27b8-4011-8e1f-8c38c7041869
-        next:
-          transform-data:
-            disabled: false
-            condition: always
-            openfn:
-              uuid: 66f6b9e4-d819-4408-adc4-2b040bbc5484
-    history:
-      - cli:12f107ef74c7
-      - cli:88b19f88afb1
-    openfn:
-      uuid: 44bcaaae-7542-4534-9bfc-1d91ea526885
-      inserted_at: 2026-10-06T08:05:11Z
-      updated_at: 2026-10-12T12:09:25Z
-      lock_version: 4
-    id: renamed-by-alias-test
-    start: webhook
   - name: OpenHIE Workflow
     steps:
       - id: notify-chw-upload-failed
@@ -397,4 +372,38 @@ workflows:
       updated_at: 2026-10-13T09:07:27Z
       lock_version: 1
     id: openhie-workflow
+    start: webhook
+  - name: Sync test
+    steps:
+      - id: log-payload
+        name: Log payload
+        expression: |
+          // Added in git to test GitHub -> OpenFn sync
+          fn(state => {
+            console.log(state.data);
+            return state;
+          });
+        adaptor: '@openfn/language-common@latest'
+        openfn:
+          uuid: d38e69ee-9cb5-420c-aebb-d23f68135aa9
+      - id: webhook
+        type: webhook
+        webhook_reply: before_start
+        openfn:
+          enabled: false
+          uuid: 994dac60-9b00-4156-bc44-a9356c8f20da
+        next:
+          log-payload:
+            disabled: false
+            condition: always
+            openfn:
+              uuid: c1baf392-7e0c-46df-a2eb-49abf2ba455f
+    history:
+      - cli:362bebdb9c9b
+    openfn:
+      uuid: 16969b53-c60b-438e-8a78-3bdc2f30e2b5
+      inserted_at: 2026-10-14T14:31:59Z
+      updated_at: 2026-10-14T14:31:59Z
+      lock_version: 1
+    id: sync-test
     start: webhook
