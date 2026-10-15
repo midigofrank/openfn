@@ -1,0 +1,9 @@
+alias: openhie
+endpoint: https://e4b0-197-237-71-108.ngrok-free.app
+forked_from:
+  openhie-workflow: cli:39447616b037
+id: openhie-project
+inserted_at: 2026-09-01T13:09:39Z
+name: openhie-project
+updated_at: 2026-10-14T06:56:52Z
+uuid: 4adf2644-ed4e-4f97-a24c-ab35b3cb1efa

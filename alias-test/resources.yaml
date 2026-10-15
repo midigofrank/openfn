@@ -1,0 +1,10 @@
+channels:
+  test-channel:
+    name: test-channel
+    destination_url: https://example.com/hook3
+    enabled: true
+  second-channel:
+    name: Second Channel
+    destination_url: https://example.com/second-v2
+    enabled: true
+collections: {}
