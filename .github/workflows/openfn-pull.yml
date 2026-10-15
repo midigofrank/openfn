@@ -23,6 +23,10 @@ on:
       commitMessage:
         description: 'Commit message for the project'
         required: true
+      alias:
+        description: 'Local alias for the project in the workspace (first pull only)'
+        required: false
+        default: ''
 
 # Shared with openfn-<project>-deploy.yml so a pull and a deploy never push to
 # the same branch at once
@@ -46,3 +50,4 @@ jobs:
           branch_input: ${{ inputs.branch }}
           workspace_input: ${{ inputs.workspace }}
           commit_message_input: ${{ inputs.commitMessage }}
+          alias_input: ${{ inputs.alias }}
